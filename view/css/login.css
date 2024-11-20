@@ -4,9 +4,16 @@ body{
     display: flex;
 }
 
+
 section{
     margin: 10rem auto;
     width: 30%;
+}
+section input{
+    background-color: rgb(216, 216, 216);
+    border: 1px solid gray;
+    padding: 5px;
+    border-radius: 5px;
     
 }
 
@@ -47,4 +54,15 @@ p{
 
 .validationWrapper{
     display: grid;
+    gap: 10px;
 }
+
+
+
+.btn-success{
+    width: 50%;
+    margin-right: 1rem;
+    height: 3rem;
+    background-color: #7cc142;
+}
+
