@@ -1,0 +1,26 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    height: 2rem;
+    margin-top: 1%;
+    border-bottom: 2px solid gray;
+    padding: 0% 5%;
+    
+}
+header span{
+    display: flex;
+}
+
+header button{
+    width: 10rem;
+    align-items: center;
+
+}
