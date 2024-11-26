@@ -1,15 +1,30 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
 
-    if ($username === 'admin' && $password === 'senha') {
-        echo "<h1>Bem-vindo, $username!</h1>";
-    } else {
-        echo "<h1>Usuário ou senha inválidos!</h1>";
-        echo '<a href="index.php">Tente novamente</a>';
-    }
-} else {
-    header('Location: index.php');
-}
+// enviar a homepage
+
+
+// aguardar a ação do usuário
+
+
+// se ele clicar em login
+// manda para página de login
+
+// se ele clicar em criar conta
+// manda para página de cadastro
+
+
+// se ele logar retorna para a página de cadastro
+
+
+// se ele clicar no botão de ver projeto
+// manda para a página de ver projeto
+
+// se ele clicar no botão de apoiar projeto
+// manda para a pagina de método de pagamento
+
+// após a escolha de método
+// mostrar dados da conta ou mostrar qr code
+
+
+
 ?>
