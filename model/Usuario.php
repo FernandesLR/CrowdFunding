@@ -14,6 +14,22 @@ class Usuario{
         $this->cpf = $cp;
         $this->cnpj = $cn;
     }
+
+    public function getCod(){
+        return $this->cod;
+    }
+    public function getEmail(){
+        return $this->email;
+    }
+    public function getSenha(){
+        return $this->senha;
+    }
+    public function getCpf(){
+        return $this->cpf;
+    }
+    public function getCnpj(){
+        return $this->cnpj;
+    }
 }
 
 ?>

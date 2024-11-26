@@ -4,7 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="estilos/login.css">
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            display: flex;
+
+        }
+        button{ color: white;}
+
+        section{
+            margin: 10rem auto;
+            width: 30%;
+        }
+        section input{
+            background-color: rgb(216, 216, 216);
+            border: 1px solid gray;
+            padding: 5px;
+            border-radius: 5px;
+            
+        }
+
+        .title{
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 6%;
+        }
+        h2{
+            font-weight: bolder;
+        }
+        h1{
+            color: rgb(14, 160, 14);
+            font-weight: bolder;
+        }
+        p{
+            text-align: center;
+            font-size: 1.4rem;
+        }
+
+        .line1{
+            border-bottom: 2px solid rgb(223, 223, 223);
+            width: 80%;
+            display: flex;
+        }
+        .line2{
+            border-bottom: 2px solid rgb(223, 223, 223);
+            width: 80%;
+            display: flex;
+        }
+
+        .btn-outline-light{
+            color: black; 
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); 
+            width: 100%;
+        }
+
+        .validationWrapper{
+            display: grid;
+            gap: 10px;
+        }
+
+
+
+        .btn-success{
+            width: 50%;
+            margin-right: 1rem;
+            height: 3rem;
+            background-color: #7cc142;
+        }
+
+
+    </style>
     <title>Login</title>
 </head>
 <body>
@@ -15,7 +88,7 @@
         </span>
         <p>Login</p>
         <button type="button" class="btn btn-outline-light">
-            <img src="../assets/googleIcon.png" alt="" style="width: 2rem;">
+            <img src="assets/googleIcon.png" alt="" style="width: 2rem;">
             Entrar com o Google
         </button>
         <span style="display: flex; align-items: center; justify-content: center;">
@@ -47,11 +120,12 @@
                 <button type="button" class="btn btn-success">Fazer login</button>
                 <div style="margin-left: 5%;">
                     <p style="margin: 0; font-size: 1rem; color: rgb(168, 168, 168);">Não tem conta?</p>
-                    <a href="">Cadastre-se</a>
+                    <a href="index.php?acao=login&&cadastro">Cadastre-se</a>
                 </div>
             </div>
 
         </div>
+        
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

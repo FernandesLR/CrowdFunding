@@ -10,5 +10,11 @@ class UsuarioController{
     public function mostrarHome(){
         include '../view/homePage.php';
     }
+
+    public function buscarUsuario($user){
+        
+
+    }
+
 }
 ?>

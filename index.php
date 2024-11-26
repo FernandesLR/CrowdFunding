@@ -1,30 +1,35 @@
 <?php
 
-// enviar a homepage
+include 'controller/Home.php';
 
-
-// aguardar a ação do usuário
-
-
-// se ele clicar em login
-// manda para página de login
-
-// se ele clicar em criar conta
-// manda para página de cadastro
-
-
-// se ele logar retorna para a página de cadastro
-
-
-// se ele clicar no botão de ver projeto
-// manda para a página de ver projeto
-
-// se ele clicar no botão de apoiar projeto
-// manda para a pagina de método de pagamento
-
-// após a escolha de método
-// mostrar dados da conta ou mostrar qr code
-
-
+// Verifica o parâmetro 'action' da URL
+if (isset($_GET['action'])) {
+    
+    switch ($_GET['action']) {
+        case 'Usuario':
+            // Redireciona para a página de login
+            Home::login();
+            break;
+        case 'register':
+            // Redireciona para a página de cadastro
+            Home::register();
+            break;
+        case 'view_project':
+            // Redireciona para a página de visualizar projeto
+            Home::viewProject();
+            break;
+        case 'support_project':
+            // Redireciona para a página de apoio ao projeto
+            Home::supportProject();
+            break;
+        default:
+            // Página inicial
+            Home::index();
+            break;
+    }
+} else {
+    // Se não houver ação, exibe a página inicial
+    Home::index();
+}
 
 ?>
