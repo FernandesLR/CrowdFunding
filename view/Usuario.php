@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="estilos/login.css">
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <style>
         body{
@@ -86,7 +87,12 @@
             <h2>Geek</h2>
             <h1>Funders</h1>
         </span>
-        <p>Login</p>
+
+        <!-- Serve para alterar de forma dinâmica o texto de cadastro ou login -->
+        <p> 
+            <?php echo $_GET['action'] == 'cadastro'? 'Cadastrar': 'Login';?>
+        </p>
+            
         <button type="button" class="btn btn-outline-light">
             <img src="assets/googleIcon.png" alt="" style="width: 2rem;">
             Entrar com o Google
@@ -103,7 +109,13 @@
             
             <div style="justify-content: space-between; display: flex;">
                 <label for="">Senha</label>
-                <a href=""  style="color: gray;">Esquci minha senha</a>
+                <a href=""  style="color: gray;">
+                    <?php 
+                        echo $_GET['action'] == 'cadastro'? 
+                        '':
+                        'Esquci minha senha'
+                    ?>  
+                </a>
             </div>
             <input type="text">
 
@@ -113,14 +125,26 @@
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
                 <label class="form-check-label" for="flexCheckChecked">
-                  Permanecer conectado
+                <?php 
+                    echo $_GET['action'] == 'cadastro'? 
+                    'Quero receber novidades da GeekFunders no meu email':
+                    'Permanecer conectado'
+                ?>    
                 </label>
+                <div class="g-recaptcha" data-sitekey="6Lc1tIsqAAAAAPkOROFUCgkJA_ebp2QGnFDr81Hw"></div>
             </div>
             <div style="display: flex; width: 100%; margin-top: 5%;">
-                <button type="button" class="btn btn-success">Fazer login</button>
+                <button type="button" class="btn btn-success">
+                <?php 
+                    echo $_GET['action'] == 'cadastro'? 
+                    'Efetuar cadastro':
+                    'Fazer login'
+                ?>  
+                </button>
+                
                 <div style="margin-left: 5%;">
                     <p style="margin: 0; font-size: 1rem; color: rgb(168, 168, 168);">Não tem conta?</p>
-                    <a href="index.php?acao=login&&cadastro">Cadastre-se</a>
+                    <a href="index.php?action=cadastro" type="submit">Cadastre-se</a>
                 </div>
             </div>
 

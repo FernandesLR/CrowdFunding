@@ -13,7 +13,7 @@ class Home {
     
     public static function register() {
         // Incluir a página de cadastro
-        include 'view/registerPage.html';
+        include 'view/Usuario.php';
     }
     
     public static function viewProject() {

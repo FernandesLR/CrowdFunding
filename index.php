@@ -10,6 +10,9 @@ if (isset($_GET['action'])) {
             // Redireciona para a página de login
             Home::login();
             break;
+        case 'cadastro':
+            Home::register();
+            break;
         case 'register':
             // Redireciona para a página de cadastro
             Home::register();
