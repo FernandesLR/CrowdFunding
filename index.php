@@ -11,19 +11,15 @@ if (isset($_GET['action'])) {
             Home::login();
             break;
         case 'cadastro':
-            Home::register();
+            Home::cadastrar();
             break;
-        case 'register':
-            // Redireciona para a página de cadastro
-            Home::register();
-            break;
-        case 'view_project':
+        case 'ver-Projeto':
             // Redireciona para a página de visualizar projeto
-            Home::viewProject();
+            Home::verProjeto();
             break;
-        case 'support_project':
+        case 'apoiar-Projeto':
             // Redireciona para a página de apoio ao projeto
-            Home::supportProject();
+            Home::apoiarProjeto();
             break;
         default:
             // Página inicial

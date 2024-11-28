@@ -11,19 +11,19 @@ class Home {
         include './view/Usuario.php';
     }
     
-    public static function register() {
+    public static function cadastrar() {
         // Incluir a página de cadastro
         include 'view/Usuario.php';
     }
     
-    public static function viewProject() {
+    public static function verProjeto() {
         // Incluir a página de visualizar projeto
-        include 'view/projectPage.html';
+        include 'view/projeto.php';
     }
     
-    public static function supportProject() {
+    public static function apoiarProjeto() {
         // Incluir a página de apoio ao projeto
-        include 'view/paymentPage.html';
+        include 'view/pagamento.php';
     }
 }
 
