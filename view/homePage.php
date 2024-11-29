@@ -51,6 +51,55 @@
             border-radius: 6px;
         }
 
+
+        .carousel-item {
+            position: relative;
+        }
+
+        .image-container {
+            position: relative;
+        }
+
+        .slide-image {
+            max-width: 100%;
+            height: auto;
+            opacity: 0.5a; /* Leve transparência na imagem */
+        }
+
+        .carousel-caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+        }
+
+        .carousel-caption h2 {
+            font-size: 2rem; /* Ajuste o tamanho do título conforme necessário */
+            font-weight: bold;
+        }
+
+        .carousel-caption button {
+            margin-top: 1rem;
+        }
+
+        .carousel-item .image-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Camada escura sobre a imagem */
+            z-index: 1;
+        }
+
+        .carousel-caption {
+            z-index: 2; /* Garantir que o texto e o botão fiquem acima da camada escura */
+        }
+
+
+
         .projetosWrapper h2{
             padding-left: 20%;
         }
@@ -63,6 +112,23 @@
             justify-content: center;
             gap: 2rem;
             margin-top: 10%;
+        }
+
+        .footer-content {
+          background-color: #000;
+          color: #fff;
+          padding: 20px;
+        }
+
+        .footer-content h3, .footer-content h4 {
+          margin: 0 0 10px 0;
+        }
+
+        .footer-content a {
+          color: #ff5a5f;
+          text-decoration: none;
+          display: block;
+          margin: 5px 0;
         }
 
     </style>
@@ -90,26 +156,39 @@
     </header>
 
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" style="border-bottom: 2px solid rgb(143, 143, 143); background-color: rgba(0, 0, 0, 0.781);">
-        <div class="carousel-inner">
-          <div class="carousel-item active" style="width: 100%; justify-self: center; align-items: center; display: flex;">
-            <img src="assets/img.jfif" class="d-block w-100" alt="..." style="max-width: 50%; margin: auto;">
-          </div>
-          <div class="carousel-item" style="width: 100%; justify-self: center; align-items: center; display: flex;">
-            <img src="assets/img2.jfif" class="d-block w-100" alt="..." style="max-width: 50%; margin: auto;">
-          </div>
-          <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
+      <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <img src="assets/img.jfif" class="d-block w-100 slide-image" alt="..." style="justify-self: center; max-width: 60%; background-color: transparent">
+          <div class="carousel-caption custom-caption">
+            <h2>Título Slide 1</h2>
+            <button type="button" class="btn btn-danger">Conhecer Projeto</button>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <img src="assets/img2.jfif" class="d-block w-100 slide-image" alt="..." style="justify-self: center; max-width: 60%;">
+          <div class="carousel-caption custom-caption">
+            <h2>Título Slide 2</h2>
+            <button type="button" class="btn btn-danger">Conhecer Projeto</button>
+          </div>
+        </div>
+        </div>
       </div>
+      <!-- Botões de navegação -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+
+
+
 
       <section class="projetosWrapper">
           <h2>Projetos em destaque</h2>
@@ -146,7 +225,19 @@
       </section>
 
       
-    <footer></footer>
+  <footer>
+    <div class="footer-content">
+      <div class="info">
+        <h3>Start Crowdfunding</h3>
+        <p>Fund your cause or project today!</p>
+      </div>
+      <div class="links">
+        <h4>About Us</h4>
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
