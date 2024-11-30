@@ -13,7 +13,7 @@ if (isset($_GET['action'])) {
         case 'cadastro':
             Home::cadastrar();
             break;
-        case 'ver-Projeto':
+        case 'ver-projeto':
             // Redireciona para a página de visualizar projeto
             Home::verProjeto();
             break;

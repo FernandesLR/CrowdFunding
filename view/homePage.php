@@ -24,6 +24,15 @@
             justify-content: space-around;
             background-color: black;
             color: white;
+            position: relative;
+            height: auto; /* Ajuste se necessário */
+            padding: 0.5rem 1rem;
+            z-index: 10;
+        }
+
+        #carouselExampleAutoplaying {
+          z-index: 1;
+          position: relative;
         }
         header span{
             display: flex;
@@ -63,7 +72,7 @@
         .slide-image {
             max-width: 100%;
             height: auto;
-            opacity: 0.5a; /* Leve transparência na imagem */
+            opacity: 0.5; /* Leve transparência na imagem */
         }
 
         .carousel-caption {
@@ -106,18 +115,21 @@
         .projetosWrapper{
             margin-top: 5%;
         }
-        .cardWrapper{
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 10%;
+        .cardWrapper {
+            display: flex; /* Define Flexbox */
+            flex-direction: row; /* Itens lado a lado (horizontalmente) */
+            flex-wrap: wrap; /* Permite quebra de linha se necessário */
+            width: 50%;
+            margin: auto;
+            gap: 2rem; /* Espaço entre os itens */
+            margin-top: 10%; /* Espaçamento superior */
         }
 
         .footer-content {
+          margin-top: 2%;
           background-color: #000;
           color: #fff;
-          padding: 20px;
+          padding: 2%;
         }
 
         .footer-content h3, .footer-content h4 {
@@ -162,15 +174,21 @@
           <img src="assets/img.jfif" class="d-block w-100 slide-image" alt="..." style="justify-self: center; max-width: 60%; background-color: transparent">
           <div class="carousel-caption custom-caption">
             <h2>Título Slide 1</h2>
-            <button type="button" class="btn btn-danger">Conhecer Projeto</button>
+            <a href="index.php?action=ver-projeto">
+              <button type="button" class="btn btn-danger">Conhecer Projeto</button>
+            </a>
           </div>
         </div>
         <!-- Slide 2 -->
+
+        
         <div class="carousel-item">
           <img src="assets/img2.jfif" class="d-block w-100 slide-image" alt="..." style="justify-self: center; max-width: 60%;">
           <div class="carousel-caption custom-caption">
             <h2>Título Slide 2</h2>
-            <button type="button" class="btn btn-danger">Conhecer Projeto</button>
+            <a href="index.php?action=ver-projeto">
+              <button type="button" class="btn btn-danger">Conhecer Projeto</button>
+            </a>
           </div>
         </div>
         </div>
@@ -191,36 +209,73 @@
 
 
       <section class="projetosWrapper">
-          <h2>Projetos em destaque</h2>
-          <div class="cardWrapper">
-            
+        <h2>Projetos em destaque</h2>
+        <div class="cardWrapper">
+
+          <a href="index.php?action=ver-projeto" style="text-decoration: none;">
             <div class="card" style="width: 18rem;">
-                <img src="assets/img.jfif" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+                  <img src="assets/img.jfif" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar" style="width: 25%"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                      <span>25% Arrecadado</span>
+                      
+                      <span>Falta 19 dias!</span>
+  
+                    </div>
+                  </div>
               </div>
-    
-              <div class="card" style="width: 18rem;">
-                <img src="assets/img.jfif" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+
+
+          </a>
+          <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+            <div class="card" style="width: 18rem;">
+                  <img src="assets/img.jfif" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar" style="width: 25%"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                      <span>25% Arrecadado</span>
+                      
+                      <span>Falta 19 dias!</span>
+  
+                    </div>
+                  </div>
               </div>
-    
-              <div class="card" style="width: 18rem;">
-                <img src="assets/img.jfif" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+
+
+          </a>
+
+          <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+            <div class="card" style="width: 18rem;">
+                  <img src="assets/img.jfif" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar" style="width: 25%"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                      <span>25% Arrecadado</span>
+                      
+                      <span>Falta 19 dias!</span>
+  
+                    </div>
+                  </div>
               </div>
-          </div>
+
+
+          </a>
+          
+
+        </div>
 
       </section>
 
@@ -239,7 +294,7 @@
     </div>
   </footer>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
   </body>
   </html>

@@ -93,15 +93,9 @@
             <?php echo $_GET['action'] == 'cadastro'? 'Cadastrar': 'Login';?>
         </p>
             
-        <button type="button" class="btn btn-outline-light">
-            <img src="assets/googleIcon.png" alt="" style="width: 2rem;">
-            Entrar com o Google
-        </button>
-        <span style="display: flex; align-items: center; justify-content: center;">
-            <div class="line1"></div>
-            <p style="margin-top: 10px; padding: 0px 15px;">ou</p>
-            <div class="line2"></div>
-        </span>
+
+
+        
 
         <div class="validationWrapper">
             <label for="">Email</label>
@@ -131,7 +125,7 @@
                     'Permanecer conectado'
                 ?>    
                 </label>
-                <div class="g-recaptcha" data-sitekey="6Lc1tIsqAAAAAPkOROFUCgkJA_ebp2QGnFDr81Hw"></div>
+                
             </div>
             <div style="display: flex; width: 100%; margin-top: 5%;">
                 <button type="button" class="btn btn-success">
