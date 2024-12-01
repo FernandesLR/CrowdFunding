@@ -95,8 +95,6 @@
             
 
 
-        
-
         <div class="validationWrapper">
             <label for="">Email</label>
             <input type="text">
