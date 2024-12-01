@@ -2,31 +2,22 @@
 
 class Doador
 {
-    private $db;
+    private $conexao;
 
-    public function __construct($pdo)
+    public function __construct()
     {
-        $this->db = $pdo;
+        $this->conexao = new PDO('mysql:host=localhost;dbname=sua_base', 'usuario', 'senha');
     }
 
-    public function criar($usuarioId, $cpf, $dataNascimento)
+    public function criar($usuario_id, $cpf, $data_nascimento)
     {
-        $stmt = $this->db->prepare("
-            INSERT INTO doadores (usuario_id, cpf, data_nascimento)
-            VALUES (:usuario_id, :cpf, :data_nascimento)
-        ");
-        $stmt->bindParam(':usuario_id', $usuarioId);
-        $stmt->bindParam(':cpf', $cpf);
-        $stmt->bindParam(':data_nascimento', $dataNascimento);
+        $query = "INSERT INTO doadores (usuario_id, cpf, data_nascimento) VALUES (:usuario_id, :cpf, :data_nascimento)";
+        $stmt = $this->conexao->prepare($query);
 
-        return $stmt->execute();
-    }
-
-    public function encontrarPorUsuarioId($usuarioId)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM doadores WHERE usuario_id = :usuario_id");
-        $stmt->bindParam(':usuario_id', $usuarioId, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->execute([
+            ':usuario_id' => $usuario_id,
+            ':cpf' => $cpf,
+            ':data_nascimento' => $data_nascimento,
+        ]);
     }
 }

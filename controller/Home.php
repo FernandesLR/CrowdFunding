@@ -25,6 +25,11 @@ class Home {
         // Incluir a página de apoio ao projeto
         include 'view/pagamento.php';
     }
+
+    public static function pergunta(){
+        include 'view/pergunta.php';
+    }
 }
+
 
 ?>

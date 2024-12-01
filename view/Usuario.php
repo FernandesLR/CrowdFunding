@@ -82,67 +82,67 @@
     <title>Login</title>
 </head>
 <body>
-    <section class="contentWraper">
-        <span class="title">
-            <h2>Geek</h2>
-            <h1>Funders</h1>
-        </span>
+<section class="contentWraper">
+    <span class="title">
+        <h2>Geek</h2>
+        <h1>Funders</h1>
+    </span>
 
-        <!-- Serve para alterar de forma dinâmica o texto de cadastro ou login -->
-        <p> 
-            <?php echo $_GET['action'] == 'cadastro'? 'Cadastrar': 'Login';?>
-        </p>
-            
+    <p>
+        <?php echo $_GET['action'] == 'cadastro' ? 'Cadastrar' : 'Login'; ?>
+    </p>
 
+    <form action="doador.php" method="POST" class="validationWrapper">
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" required>
 
-        <div class="validationWrapper">
-            <label for="">Email</label>
-            <input type="text">
-            
-            <div style="justify-content: space-between; display: flex;">
-                <label for="">Senha</label>
-                <a href=""  style="color: gray;">
-                    <?php 
-                        echo $_GET['action'] == 'cadastro'? 
-                        '':
-                        'Esquci minha senha'
-                    ?>  
-                </a>
-            </div>
-            <input type="text">
-
+        <div style="justify-content: space-between; display: flex;">
+            <label for="password">Senha</label>
+            <a href="" style="color: gray;">
+                <?php echo $_GET['action'] == 'cadastro' ? '' : 'Esqueci minha senha'; ?>
+            </a>
         </div>
+        <input type="password" name="password" id="password" required>
+
+        <?php 
+        if ($_GET['action'] == 'cadastro') {
+            echo '
+            <label for="cpf">CPF/CNPJ</label>
+            <input type="text" name="cpf_cnpj" id="cpf" required>
+
+            <label for="tipoUsuario">Tipo de usuário</label>
+            <select name="tipoUsuario" id="tipoUsuario" class="form-select">
+                <option value="doador">Doador</option>
+                <option value="donatario">Donatário</option>
+            </select>
+            ';
+        }
+        ?>
 
         <div style="margin-top: 5%;">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                <input class="form-check-input" type="checkbox" name="newsletter" id="flexCheckChecked" value="1" checked>
                 <label class="form-check-label" for="flexCheckChecked">
-                <?php 
-                    echo $_GET['action'] == 'cadastro'? 
-                    'Quero receber novidades da GeekFunders no meu email':
-                    'Permanecer conectado'
-                ?>    
+                    <?php echo $_GET['action'] == 'cadastro' ? 
+                    'Quero receber novidades da GeekFunders no meu email' : 
+                    'Permanecer conectado'; ?>
                 </label>
-                
             </div>
-            <div style="display: flex; width: 100%; margin-top: 5%;">
-                <button type="button" class="btn btn-success">
-                <?php 
-                    echo $_GET['action'] == 'cadastro'? 
-                    'Efetuar cadastro':
-                    'Fazer login'
-                ?>  
-                </button>
-                
-                <div style="margin-left: 5%;">
-                    <p style="margin: 0; font-size: 1rem; color: rgb(168, 168, 168);">Não tem conta?</p>
-                    <a href="index.php?action=cadastro" type="submit">Cadastre-se</a>
-                </div>
-            </div>
-
         </div>
-        
-    </section>
+
+        <div style="display: flex; width: 100%; margin-top: 5%;">
+            <button type="submit" class="btn btn-success">
+                <?php echo $_GET['action'] == 'cadastro' ? 'Efetuar cadastro' : 'Fazer login'; ?>
+            </button>
+
+            <div style="margin-left: 5%;">
+                <p style="margin: 0; font-size: 1rem; color: rgb(168, 168, 168);">Não tem conta?</p>
+                <a href="index.php?action=cadastro" type="submit">Cadastre-se</a>
+            </div>
+        </div>
+    </form>
+</section>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
