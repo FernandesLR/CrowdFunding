@@ -8,7 +8,7 @@ class Home {
     
     public static function login() {
         // Incluir a página de login
-        include './view/Usuario.php';
+        include './view/cadastroElogin.php';
     }
     
     public static function cadastrar() {

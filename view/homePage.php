@@ -154,8 +154,10 @@
 <body>
     <header style="position: relative;">
         <span>
-            <p>Geek</p>
-            <p>Hunters</p>
+            <a href="#" style="text-decoration: none; color:#fff; display:flex;">
+                <p>Geek</p>
+                <p>Hunters</p>
+            </a>
         </span>
 
         <input type="text" placeholder="Buscar projetos">

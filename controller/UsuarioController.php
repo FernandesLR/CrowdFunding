@@ -1,53 +1,82 @@
 <?php
-require_once "model/usuario.php";
+require_once 'UserDAO.php'; // Inclui o DAO de usuário (onde o acesso ao banco de dados será feito)
+require_once 'DoadorDAO.php'; // DAO para doador
+require_once 'DonatarioDAO.php'; // DAO para donatário
 require_once 'Usuario.php';
 
+class UsuarioController {
 
-class UsuarioController
-{
-    private $usuarioModel;
+    // Método de cadastro de usuário
+    public function cadastrar($postData) {
+        // Recebe os dados do formulário
+        $email = $postData['email'];
+        $password = $postData['password'];
+        $cpfCnpj = $postData['cpf_cnpj'];
+        $tipoUsuario = $postData['tipoUsuario'];
 
-    public function listarUsuarios()
-    {
-        $usuarios = $this->usuarioModel->listarTodos();
-        header('Content-Type: application/json');
-        echo json_encode($usuarios);
-    }
+        // Criptografa a senha
+        $senhaHash = password_hash($password, PASSWORD_DEFAULT);
 
-    public function exibirUsuario($id)
-    {
-        $usuario = $this->usuarioModel->encontrarPorId($id);
-        if ($usuario) {
-            header('Content-Type: application/json');
-            echo json_encode($usuario);
-        } else {
-            http_response_code(404);
-            echo json_encode(['message' => 'Usuário não encontrado']);
+        // Cria um novo usuário
+        $usuario = new Usuario();
+        $usuario->setEmail($email);
+        $usuario->setSenha($senhaHash);
+        $usuario->setTipoUsuario($tipoUsuario);
+
+        // Insere o usuário no banco de dados
+        $userDAO = new UsuarioDAO();
+        $userDAO->cadastrar($usuario);
+
+        // Caso o tipo de usuário seja doador ou donatário, criamos o registro adicional
+        if ($tipoUsuario == 'doador') {
+            $doador = new Doador();
+            $doador->setEmail($usuario->getEmail()); // Definir o e-mail do doador
+            $doador->setSenha($usuario->getSenha()); // Definir a senha do doador
+            $doador->setTipoUsuario($usuario->getTipoUsuario()); // Definir tipo de usuário (doador)
+            $doador->setCpf($cpfCnpj); // Definir o CPF do doador
+
+            $doadorDAO = new DoadorDAO();
+            $doadorDAO->inserirDoador($doador); // Chamada para inserir o doador no banco de dados
+        } else if ($tipoUsuario == 'donatario') {
+            $donatario = new Donatario();
+            $donatario->setUsuarioId($usuario->getCod()); // Definir o ID do usuário
+            $donatario->setCpfCnpj($cpfCnpj); // Definir o CPF ou CNPJ do donatário
+            $donatario->setTipoDocumento('cpf'); // Tipo de documento, aqui configuramos como 'cpf', mas pode ser 'cnpj' dependendo da situação
+
+            $donatarioDAO = new DonatarioDAO();
+            $donatarioDAO->inserirDonatario($donatario); // Chamada para inserir o donatário no banco de dados
         }
+
+
+        // Redireciona após o cadastro
+        header("Location: index.php?action=login");
     }
 
-    public function criarUsuario($dados)
-    {
-        if (isset($dados['nome'], $dados['email'], $dados['senha'], $dados['tipo_usuario'])) {
-            $sucesso = $this->usuarioModel->criar(
-                $dados['nome'],
-                $dados['email'],
-                $dados['senha'],
-                $dados['tipo_usuario']
-            );
+    // Método de login
+    public function login($postData) {
+        // Recebe os dados de login
+        $email = $postData['email'];
+        $password = $postData['password'];
 
-            if ($sucesso) {
-                http_response_code(201);
-                echo json_encode(['message' => 'Usuário criado com sucesso']);
+        // Verifica o usuário no banco de dados
+        $userDAO = new UsuarioDAO();
+        $usuario = $userDAO->login($email);
+
+        if ($usuario && password_verify($password, $usuario['senha'])) {
+            // Login bem-sucedido, redireciona para a área do usuário
+            session_start();
+            $_SESSION['usuario_id'] = $usuario['id'];
+            $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
+
+            if ($usuario['tipo_usuario'] == 'doador') {
+                header("Location: doador_dashboard.php");
             } else {
-                http_response_code(500);
-                echo json_encode(['message' => 'Erro ao criar usuário']);
+                header("Location: donatario_dashboard.php");
             }
         } else {
-            http_response_code(400);
-            echo json_encode(['message' => 'Dados inválidos']);
+            // Falha no login
+            echo "Email ou senha inválidos!";
         }
     }
-}
 
-?>
+}

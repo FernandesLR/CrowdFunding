@@ -6,8 +6,7 @@ include 'controller/Home.php';
 if (isset($_GET['action'])) {
     
     switch ($_GET['action']) {
-        case 'Usuario':
-            // Redireciona para a página de login
+        case 'login':
             Home::login();
             break;
         case 'cadastro':

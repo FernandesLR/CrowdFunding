@@ -1,34 +1,17 @@
 <?php
 
+class Doador extends Usuario {
+    private $cpf; // CPF do doador
 
-class Doador
-{
-    private $id;
-    private $usuarioId;
-    private $cpf;
-    private $dataNascimento;
-
-    public function __construct($i, $usuID, $c, $dn)
-    {
-        $this->id = $i;
-        $this->usuarioId = $usuID;
-        $this->cpf = $c;
-        $this->dataNascimento = $dn;
+    // Setter para CPF do doador
+    public function setCpf($cpf) {
+        $this->cpf = $cpf;
     }
 
-
-    
-    public function getUsuario(){
-        return $this->usuarioId;
-    }
-    
-    public function getCpf(){
+    // Getter para CPF do doador
+    public function getCpf() {
         return $this->cpf;
     }
-    
-    public function getDataNasc(){
-        return $this->dataNascimento;
-    }
-
-
 }
+
+?>
