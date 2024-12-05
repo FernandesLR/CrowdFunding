@@ -1,23 +1,34 @@
 <?php
 
+
 class Doador
 {
-    private $conexao;
+    private $id;
+    private $usuarioId;
+    private $cpf;
+    private $dataNascimento;
 
-    public function __construct()
+    public function __construct($i, $usuID, $c, $dn)
     {
-        $this->conexao = new PDO('mysql:host=localhost;dbname=sua_base', 'usuario', 'senha');
+        $this->id = $i;
+        $this->usuarioId = $usuID;
+        $this->cpf = $c;
+        $this->dataNascimento = $dn;
     }
 
-    public function criar($usuario_id, $cpf, $data_nascimento)
-    {
-        $query = "INSERT INTO doadores (usuario_id, cpf, data_nascimento) VALUES (:usuario_id, :cpf, :data_nascimento)";
-        $stmt = $this->conexao->prepare($query);
 
-        return $stmt->execute([
-            ':usuario_id' => $usuario_id,
-            ':cpf' => $cpf,
-            ':data_nascimento' => $data_nascimento,
-        ]);
+    
+    public function getUsuario(){
+        return $this->usuarioId;
     }
+    
+    public function getCpf(){
+        return $this->cpf;
+    }
+    
+    public function getDataNasc(){
+        return $this->dataNascimento;
+    }
+
+
 }
