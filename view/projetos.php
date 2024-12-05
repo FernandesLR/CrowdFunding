@@ -1,198 +1,302 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Projetos De Doação</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem vindo!</title>
+    <link rel="stylesheet" href="/estilos/homepage.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-<style>
-    * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box; /* Adiciona o box-sizing para facilitar o controle do tamanho dos elementos */
+    <style>
+        body{
+          margin: 0;
+          padding: 0;
+          height: 100vh;
+          width: 100vw;
+          font-family: Arial, Helvetica, sans-serif;
         }
 
-        body {
+
+
+        header{
+            padding: 0.4rem;
             display: flex;
-            justify-content:center; /* Ajusta os itens para o início da tela */
-            align-items: center;
-            height: 100vh;
-            font-family: "Arial", sans-serif;
-            background-image: url("assets/fundo.png");
-            background-size: cover;
-            gap: 16px; /* Espaço entre os elementos */
-            padding: 16px;
-            overflow-y: auto; /* Caso o conteúdo ultrapasse a altura da tela, ele será rolável */
-        }
-
-        /* Coloca a seção de busca no topo */
-        #buscar-projetos {
-            position: absolute; /* Posiciona a seção de busca de forma absoluta */
-            top: 16px; /* Distância do topo da página */
-            left: 50%; /* Alinha horizontalmente ao centro */
-            transform: translateX(-50%); /* Ajusta para garantir que esteja centralizado */
-            background-color: #f8f8f8; /* Cor de fundo para destacar */
-            padding: 20px; /* Aumentei o espaçamento para dar mais espaço ao formulário */
-            text-align: center; /* Alinhamento central */
-            border-bottom: 2px solid #dddddd; /* Linha de separação */
             width: 100%;
-            max-width: 600px; /* Limita a largura máxima da seção de busca */
-            z-index: 10; /* Coloca a seção de busca acima de outros elementos */
+            border-bottom: 2px solid gray;
+            justify-content: space-around;
+            background-color: black;
+            color: white;
+            position: relative;
+            height: auto; /* Ajuste se necessário */
+            padding: 0.5rem 1rem;
+            z-index: 10;
+            
         }
 
-        /* Contêiner para os cards */
-        .card-container {
-            display: flex; /* Exibe os cards lado a lado */
-            flex-wrap: wrap; /* Permite que os cards que não cabem na linha se movam para a linha seguinte */
-            justify-content: center; /* Centraliza os cards */
-            gap: 16px; /* Espaço entre os cards */
-            width: 100%;
-            max-width: 120px; /* Largura máxima do contêiner */
-            margin-top: 50px; /* Adiciona um espaçamento entre a seção de busca e os cards */
-        }
 
-        /* Estilos para os cards */
-        .card {
-            background-color: #fff;
-            width: 280px;
-            height: 380px;
-            border-radius: 12px;
-            box-shadow: 4px 4px 12px #aaaa;
-            padding: 16px;
+        header span{
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: transform 0.3s ease-in-out;
+            font-weight: bolder;
         }
 
-        .card:hover {
-            transform: scale(1.05); /* Efeito de hover para dar mais destaque ao card */
-        }
-
-        .card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 12px;
-        }
-
-        .card h1 {
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-        }
-
-        .card h2 {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        .card h3 {
-            font-size: 1rem;
-            margin-bottom: 12px;
-        }
-
-        .card span {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-        }
-
-        .card button {
-            background-color: #2192FF;
-            height: 36px;
+        header button{
+            height: 2rem;
+            width: 8rem;
+            border-radius: 6px;
             border: none;
-            width: 100%;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 12px;
+            align-self: center;
+            background-color: transparent;
+            color: white;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
 
-        .card button:hover {
-            background-color: #1a7bc1;
+        .btnLogin{
+            background-color: rgb(219, 2, 2);
+            color: white;
         }
 
-        /* Ajustes responsivos para telas menores */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
+        header input{
+            width: 40%;
+            border-radius: 6px;
+        }
 
-            #buscar-projetos input {
-                width: 50%; /* Aumenta o input no celular */
-            }
+        .projetosWrapper h2{
+            padding-left: 20%;
+        }
+        .projetosWrapper{
+            margin-top: 5%;
+        }
+        .cardWrapper {
+            display: flex; /* Define Flexbox */
+            flex-direction: row; /* Itens lado a lado (horizontalmente) */
+            flex-wrap: wrap; /* Permite quebra de linha se necessário */
+            width: 50%;
+            margin: auto;
+            gap: 2rem; /* Espaço entre os itens */
+            margin-top: 10%; /* Espaçamento superior */
+        }
 
-            /* Modifica o comportamento dos cards em telas menores */
-            .card-container {
-                justify-content: center; /* Centraliza os cards */
-            }
+        .footer-content {
+          margin-top: 2%;
+          background-color: #000;
+          color: #fff;
+          padding: 2%;
+        }
 
-            .card {
-                width: 45%; /* Faz os cards ficarem um pouco menores, mas ainda lado a lado */
-                height: min-content; /* Ajusta a altura automaticamente */
-            }
+        .footer-content h3, .footer-content h4 {
+          margin: 0 0 10px 0;
+        }
 
-            .card img {
-                height: 120px; /* Ajusta a altura das imagens nos dispositivos menores */
-            }
+        .footer-content a {
+          color: #ff5a5f;
+          text-decoration: none;
+          display: block;
+          margin: 5px 0;
+          
         }
 
 
-</style>
+    </style>
+</head>
 <body>
-    <div id="buscar-projetos">
-        <h2>Buscar Projetos</h2>
-        <input type="text" placeholder="Pesquise um projeto...">
-        <button>Buscar</button>
+    <header style="position: relative;">
+        <span>
+            <a href="index.php?action=home" style="text-decoration: none; color:#fff; display:flex;">
+                <p>Geek</p>
+                <p>Hunters</p>
+            </a>
+        </span>
+
+        <input type="text" placeholder="Buscar projetos">
+
+        <a href="index.php?acao=criarProjeto">
+            <button>Criar Projeto</button>
+        </a>
+
+        <?php
+        $login = true;
+
+        echo $login ? 
+        '
+        <div class="dropdown" style="position: relative;">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
+                Meu Menu
+            </button>
+            <div class="collapse" id="userMenu" style="position: absolute; top: 100%; right: 0; width: 200px; z-index: 1000;">
+                <div class="card card-body" style="text-decoration: none">
+                    <a href="index.php?action=perfil">Meu Perfil</a>
+                    <a href="index.php?action=meus-projetos">Meus Projetos</a>
+                    <a href="index.php?action=logout">Sair</a>
+                </div>
+            </div>
+        </div>
+        ' :
+        ' 
+        <a href="index.php?action=Usuario">
+            <button class="btnLogin">Login</button>
+        </a>
+        ';
+        ?>
+    </header>
+
+    <section class="projetosWrapper">
+            <h2>Projetos que apoiei</h2>
+            <div class="cardWrapper">
+
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+    
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+    
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+    
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+            
+
+            </div>
+
+    </section>
+    <hr>
+
+    <section class="projetosWrapper">
+            <h2>Recompensas</h2>
+            <div class="cardWrapper">
+
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+    
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+    
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+    
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+            
+
+            </div>
+
+    </section>
+      
+  <footer>
+    <div class="footer-content">
+      <div class="info">
+        <h3>Start Crowdfunding</h3>
+        <p>Fund your cause or project today!</p>
       </div>
-
-
-
-    <div class="card">
-        
-        <img src="assets/Terror.png">
-
-        <div>
-            <h1>No Andar de Baixo</h1>
-            <h2>por Cecília Ramos</h2>
-            <h3>4 contos de terror em quadrinhos<br> ambientados dentro de casa</h3>
-            <span>R$ 91.865</span>
-            <button>Saiba Mais</button>
-        </div>
-       
+      <div class="links">
+        <h4>About Us</h4>
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+      </div>
     </div>
+  </footer>
     
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
-    <div class="card">
-        
-        <img src="assets/PotionRush.png">
-
-        <div>
-            <h1>Potion Rush</h1>
-            <h2>por Magic Leaf Games</h2>
-            <h3>A seus caldeirões! <br>Vai começar a grande competição de porções,com magias e muita diversão</h3>
-            <span>R$ 32.903</span>
-            <button>Saiba Mais</button>
-        </div>
-    </div>   
-
-    
-    
-    
-    <div class="card">
-        
-        <img src="assets/Campanha.png">
-
-        <div>
-            <h1>Cartógrafo de Campanha</h1>
-            <h2>por Cube dos Tabemeiros</h2>
-            <h3>Um livro com mais de 30 mapas para suas mesas!<br> Zero preparação e zero bagunça:só abir e jogar!</h3>
-            <span>R$ 26.831</span>
-            <button>Saiba Mais</button>
-        </div>
-    </div>   
-</body>
-</html>
+  </body>
+  </html>
