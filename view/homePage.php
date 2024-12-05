@@ -16,6 +16,8 @@
           font-family: Arial, Helvetica, sans-serif;
         }
 
+
+
         header{
             padding: 0.4rem;
             display: flex;
@@ -28,12 +30,15 @@
             height: auto; /* Ajuste se necessário */
             padding: 0.5rem 1rem;
             z-index: 10;
+            
         }
 
         #carouselExampleAutoplaying {
           z-index: 1;
           position: relative;
         }
+
+
         header span{
             display: flex;
             font-weight: bolder;
@@ -59,7 +64,6 @@
             width: 40%;
             border-radius: 6px;
         }
-
 
         .carousel-item {
             position: relative;
@@ -107,7 +111,7 @@
             z-index: 2; /* Garantir que o texto e o botão fiquem acima da camada escura */
         }
 
-
+        
 
         .projetosWrapper h2{
             padding-left: 20%;
@@ -141,12 +145,14 @@
           text-decoration: none;
           display: block;
           margin: 5px 0;
+          
         }
+
 
     </style>
 </head>
 <body>
-    <header>
+    <header style="position: relative;">
         <span>
             <p>Geek</p>
             <p>Hunters</p>
@@ -154,17 +160,34 @@
 
         <input type="text" placeholder="Buscar projetos">
 
-
         <a href="index.php?acao=criarProjeto">
-          <button>Criar Projeto</button>
+            <button>Criar Projeto</button>
         </a>
 
+        <?php
+        $login = true;
 
+        echo $login ? 
+        '
+        <div class="dropdown" style="position: relative;">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
+                Meu Menu
+            </button>
+            <div class="collapse" id="userMenu" style="position: absolute; top: 100%; right: 0; width: 200px; z-index: 1000;">
+                <div class="card card-body" style="text-decoration: none">
+                    <a href="index.php?action=perfil">Meu Perfil</a>
+                    <a href="index.php?action=meus-projetos">Meus Projetos</a>
+                    <a href="index.php?action=logout">Sair</a>
+                </div>
+            </div>
+        </div>
+        ' :
+        ' 
         <a href="index.php?action=Usuario">
-          <button class="btnLogin">Login</button>
-
+            <button class="btnLogin">Login</button>
         </a>
-
+        ';
+        ?>
     </header>
 
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" style="border-bottom: 2px solid rgb(143, 143, 143); background-color: rgba(0, 0, 0, 0.781);">

@@ -29,6 +29,9 @@ class Home {
     public static function pergunta(){
         include 'view/pergunta.php';
     }
+    public static function projetos(){
+        include 'view/projetos.php';
+    }
 }
 
 

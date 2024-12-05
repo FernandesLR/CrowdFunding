@@ -21,6 +21,9 @@ if (isset($_GET['action'])) {
             // Redireciona para a página de apoio ao projeto
             Home::apoiarProjeto();
             break;
+        case 'meus-projetos':
+            Home::projetos();
+            break;
         default:
             // Página inicial
             Home::index();
