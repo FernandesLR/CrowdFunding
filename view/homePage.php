@@ -167,7 +167,7 @@
         </a>
 
         <?php
-        $login = true;
+        $login = false;
 
         echo $login ? 
         '
@@ -185,7 +185,7 @@
         </div>
         ' :
         ' 
-        <a href="index.php?action=Usuario">
+        <a href="index.php?action=login">
             <button class="btnLogin">Login</button>
         </a>
         ';

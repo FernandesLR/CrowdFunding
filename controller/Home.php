@@ -13,7 +13,7 @@ class Home {
     
     public static function cadastrar() {
         // Incluir a página de cadastro
-        include 'view/Usuario.php';
+        include 'view/cadastroElogin.php';
     }
     
     public static function verProjeto() {

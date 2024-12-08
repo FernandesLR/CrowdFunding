@@ -1,6 +1,8 @@
 <?php
 
 include 'controller/Home.php';
+include 'controller/UsuarioController.php';
+$usuario = new UsuarioController();
 
 // Verifica o parâmetro 'action' da URL
 if (isset($_GET['action'])) {
@@ -32,6 +34,25 @@ if (isset($_GET['action'])) {
     // Se não houver ação, exibe a página inicial
     Home::index();
 }
+
+
+if (isset($_POST['action'])) {
+    
+    switch ($_POST['action']) {
+        /*
+        case 'login':
+            Home::login();
+            break;*/
+        case 'cadastrar':
+            $usuario->cadastrar();
+            break;
+
+        default:
+            break;
+    }
+}
+
+
 
 
 

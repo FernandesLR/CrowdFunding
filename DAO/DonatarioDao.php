@@ -1,5 +1,6 @@
 <?php
-include '/../Conexao.php'; // Inclui a classe de conexão com o banco de dados
+require_once __DIR__ . '/../Conexao/Conexao.php';
+
 
 class DonatarioDAO {
     

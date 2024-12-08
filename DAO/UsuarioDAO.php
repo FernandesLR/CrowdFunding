@@ -1,5 +1,6 @@
 <?php
-include '/../Conexao.php';
+require_once __DIR__ . '/../Conexao/Conexao.php';
+
 
 class UsuarioDAO {
 
@@ -11,11 +12,13 @@ class UsuarioDAO {
             // Definindo a query de inserção
             $sql = "INSERT INTO usuarios (email, senha, tipo_usuario) VALUES (:email, :senha, :tipo_usuario)";
             $stmt = $cnx->prepare($sql);
-
+            $email = $usuario->getEmail();
+            $senha = $usuario->getSenha();
+            $tipo = $usuario->getTipoUsuario();
             // Bind dos parâmetros
-            $stmt->bindParam(':email', $usuario->getEmail());
-            $stmt->bindParam(':senha', $usuario->getSenha());
-            $stmt->bindParam(':tipo_usuario', $usuario->getTipoUsuario());
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':senha', $senha);
+            $stmt->bindParam(':tipo_usuario', $tipo);
 
             // Executa a query
             $stmt->execute();

@@ -1,17 +1,23 @@
 <?php
 
-class Doador extends Usuario {
-    private $cpf; // CPF do doador
+class Doador {
+    private $usuarioId;
+    private $cpf;
 
-    // Setter para CPF do doador
-    public function setCpf($cpf) {
-        $this->cpf = $cpf;
+    // Getters e Setters
+    public function getUsuarioId() {
+        return $this->usuarioId;
     }
 
-    // Getter para CPF do doador
+    public function setUsuarioId($usuarioId) {
+        $this->usuarioId = $usuarioId;
+    }
+
     public function getCpf() {
         return $this->cpf;
     }
-}
 
-?>
+    public function setCpf($cpf) {
+        $this->cpf = $cpf;
+    }
+}

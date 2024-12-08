@@ -1,18 +1,29 @@
 <?php
-require_once 'UserDAO.php'; // Inclui o DAO de usuário (onde o acesso ao banco de dados será feito)
-require_once 'DoadorDAO.php'; // DAO para doador
-require_once 'DonatarioDAO.php'; // DAO para donatário
-require_once 'Usuario.php';
+require_once __DIR__ . '/../DAO/UsuarioDAO.php'; 
+require_once __DIR__ . '/../DAO/DoadorDAO.php'; 
+require_once __DIR__ . '/../DAO/DonatarioDAO.php'; 
+require_once __DIR__ . '/../model/Usuario.php'; 
+require_once __DIR__ . '/../model/Doador.php';
+require_once __DIR__ . '/../Conexao/Conexao.php'; 
+
 
 class UsuarioController {
 
     // Método de cadastro de usuário
-    public function cadastrar($postData) {
+    public function cadastrar() {
         // Recebe os dados do formulário
-        $email = $postData['email'];
-        $password = $postData['password'];
-        $cpfCnpj = $postData['cpf_cnpj'];
-        $tipoUsuario = $postData['tipoUsuario'];
+        
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $cpfCnpj = $_POST['cpf_cnpj'];
+        $tipoUsuario = $_POST['tipoUsuario'];
+
+        echo "Email = ".$email;
+        echo "\nsenha = =".$password;
+        echo "\n cpf/cnpj = ".$cpfCnpj;
+        echo "    \ntipousuario  = ".$tipoUsuario;
+        
+        
 
         // Criptografa a senha
         $senhaHash = password_hash($password, PASSWORD_DEFAULT);
@@ -23,34 +34,38 @@ class UsuarioController {
         $usuario->setSenha($senhaHash);
         $usuario->setTipoUsuario($tipoUsuario);
 
+        print_r("Dentro do usuario: ".$usuario->getEmail()."\n\n".$usuario->getSenha());
+
         // Insere o usuário no banco de dados
         $userDAO = new UsuarioDAO();
-        $userDAO->cadastrar($usuario);
+        $id = $userDAO->cadastrar($usuario);
 
         // Caso o tipo de usuário seja doador ou donatário, criamos o registro adicional
+        
         if ($tipoUsuario == 'doador') {
             $doador = new Doador();
-            $doador->setEmail($usuario->getEmail()); // Definir o e-mail do doador
-            $doador->setSenha($usuario->getSenha()); // Definir a senha do doador
-            $doador->setTipoUsuario($usuario->getTipoUsuario()); // Definir tipo de usuário (doador)
-            $doador->setCpf($cpfCnpj); // Definir o CPF do doador
-
+            $doador->setUsuarioId($usuario->getCod()); // Supondo que o método getId() retorna o ID do usuário cadastrado
+            $doador->setCpf($cpfCnpj);
+        
             $doadorDAO = new DoadorDAO();
-            $doadorDAO->inserirDoador($doador); // Chamada para inserir o doador no banco de dados
-        } else if ($tipoUsuario == 'donatario') {
+            $doadorDAO->inserirDoador($doador, $id);
+        
+        }else if ($tipoUsuario == 'donatario') {
             $donatario = new Donatario();
-            $donatario->setUsuarioId($usuario->getCod()); // Definir o ID do usuário
-            $donatario->setCpfCnpj($cpfCnpj); // Definir o CPF ou CNPJ do donatário
-            $donatario->setTipoDocumento('cpf'); // Tipo de documento, aqui configuramos como 'cpf', mas pode ser 'cnpj' dependendo da situação
+            $donatario->setUsuarioId($usuario->getCod());
+            $donatario->setCpfCnpj($cpfCnpj);
+            $donatario->setTipoDocumento('cpf');
 
             $donatarioDAO = new DonatarioDAO();
-            $donatarioDAO->inserirDonatario($donatario); // Chamada para inserir o donatário no banco de dados
+            $donatarioDAO->inserirDonatario($donatario);
         }
 
-
         // Redireciona após o cadastro
-        header("Location: index.php?action=login");
+
+
+        exit();
     }
+    
 
     // Método de login
     public function login($postData) {
