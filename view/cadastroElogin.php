@@ -92,7 +92,7 @@
         <?php echo $_GET['action'] == 'cadastro' ? 'Cadastrar' : 'Login'; ?>
     </p>
 
-    <form action="index.php?action=cadastrar" method="POST" class="validationWrapper">
+    <form action="index.php?action=<?php echo $_GET['action'] == 'cadastro' ? 'cadastrar' : 'login'; ?>" method="POST" class="validationWrapper">
         <label for="email">Email</label>
         <input type="text" name="email" id="email" required>
 
@@ -132,7 +132,7 @@
 
         <div style="display: flex; width: 100%; margin-top: 5%;">
             
-            <input type="hidden" name="action" value="cadastrar">
+            <input type="hidden" name="action" value="<?php echo $_GET['action'] == 'cadastro' ? 'cadastrar' : 'login'; ?>">
             
             <input type="submit" class="btn btn-success" value="<?php echo $_GET['action'] == 'cadastro' ? 'Efetuar cadastro' : 'Fazer login'; ?>">
 

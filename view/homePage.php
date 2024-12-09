@@ -167,29 +167,32 @@
         </a>
 
         <?php
-        $login = false;
+          $login = isset($_SESSION['usuario_id']); // Verifica se o usuário está logado
 
-        echo $login ? 
-        '
-        <div class="dropdown" style="position: relative;">
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
-                Meu Menu
-            </button>
-            <div class="collapse" id="userMenu" style="position: absolute; top: 100%; right: 0; width: 200px; z-index: 1000;">
-                <div class="card card-body" style="text-decoration: none">
-                    <a href="index.php?action=perfil">Meu Perfil</a>
-                    <a href="index.php?action=meus-projetos">Meus Projetos</a>
-                    <a href="index.php?action=logout">Sair</a>
-                </div>
-            </div>
-        </div>
-        ' :
-        ' 
-        <a href="index.php?action=login">
-            <button class="btnLogin">Login</button>
-        </a>
-        ';
-        ?>
+          if ($login) {
+              // Menu de usuário logado
+              echo '
+              <div class="dropdown" style="position: relative;">
+                  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
+                      Meu Menu
+                  </button>
+                  <div class="collapse" id="userMenu" style="position: absolute; top: 100%; right: 0; width: 200px; z-index: 1000;">
+                      <div class="card card-body">
+                          <a href="index.php?action=perfil">Meu Perfil</a>
+                          <a href="index.php?action=meus-projetos">Meus Projetos</a>
+                          <a href="index.php?action=logout">Sair</a>
+                      </div>
+                  </div>
+              </div>';
+          } else {
+              // Botão de login para visitantes
+              echo '
+              <a href="index.php?action=login">
+                  <button class="btnLogin">Login</button>
+              </a>';
+          }
+          ?>
+
     </header>
 
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" style="border-bottom: 2px solid rgb(143, 143, 143); background-color: rgba(0, 0, 0, 0.781);">

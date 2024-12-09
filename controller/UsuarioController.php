@@ -18,10 +18,6 @@ class UsuarioController {
         $cpfCnpj = $_POST['cpf_cnpj'];
         $tipoUsuario = $_POST['tipoUsuario'];
 
-        echo "Email = ".$email;
-        echo "\nsenha = =".$password;
-        echo "\n cpf/cnpj = ".$cpfCnpj;
-        echo "    \ntipousuario  = ".$tipoUsuario;
         
         
 
@@ -34,7 +30,7 @@ class UsuarioController {
         $usuario->setSenha($senhaHash);
         $usuario->setTipoUsuario($tipoUsuario);
 
-        print_r("Dentro do usuario: ".$usuario->getEmail()."\n\n".$usuario->getSenha());
+        
 
         // Insere o usuário no banco de dados
         $userDAO = new UsuarioDAO();
@@ -61,37 +57,56 @@ class UsuarioController {
         }
 
         // Redireciona após o cadastro
-
+        header("Location: index.php");
 
         exit();
     }
     
 
     // Método de login
-    public function login($postData) {
-        // Recebe os dados de login
-        $email = $postData['email'];
-        $password = $postData['password'];
-
-        // Verifica o usuário no banco de dados
+    public function login() {
+        // Recebe os dados do formulário
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        
+        // Consulta no banco de dados
         $userDAO = new UsuarioDAO();
-        $usuario = $userDAO->login($email);
-
-        if ($usuario && password_verify($password, $usuario['senha'])) {
-            // Login bem-sucedido, redireciona para a área do usuário
+        $usuario = $userDAO->login($email, $password);
+    
+        if ($usuario) {
+            // Inicializa a sessão e define as variáveis
             session_start();
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
-
-            if ($usuario['tipo_usuario'] == 'doador') {
-                header("Location: doador_dashboard.php");
-            } else {
-                header("Location: donatario_dashboard.php");
-            }
+    
+            // Redireciona para a página inicial
+            header("Location: index.php?action=home");
+            exit();
         } else {
-            // Falha no login
-            echo "Email ou senha inválidos!";
+            // Redireciona com mensagem de erro
+            header("Location: index.php?action=login&error=invalid_credentials");
+            exit();
         }
     }
+
+    public function logout() {
+        session_start(); // Inicia a sessão
+        session_unset(); // Remove todas as variáveis de sessão
+        session_destroy(); // Destroi a sessão
+        
+        // Redireciona para a página inicial ou de login
+        header("Location: index.php?action=login");
+        exit();
+    }
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
 
 }

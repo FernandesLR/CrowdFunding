@@ -32,32 +32,30 @@ class UsuarioDAO {
     }
 
     // Método para realizar login de um usuário
-    public function login($usuario) {
+    public function login($email, $senha) {
         $conn = Conexao::conectar();
-        $email = $usuario->getEmail();
-        $senha = $usuario->getSenha();
-
+    
         try {
             // Consulta para buscar o usuário pelo email
             $sql = "SELECT * FROM usuarios WHERE email = :email";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':email', $email);
             $stmt->execute();
-
+    
             // Verifica se o usuário foi encontrado
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
             if ($usuario && password_verify($senha, $usuario['senha'])) {
-                // Login bem-sucedido
                 return $usuario; // Retorna o usuário encontrado
             } else {
-                // Credenciais inválidas
                 return null; // Retorna null se não encontrar ou senha inválida
+                
             }
         } catch (PDOException $e) {
             error_log("Erro ao fazer login: " . $e->getMessage());
             throw new Exception("Erro ao fazer login: " . $e->getMessage()); // Lança exceção para ser tratada
         }
     }
+    
 }
 ?>

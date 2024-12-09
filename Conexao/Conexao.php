@@ -3,7 +3,7 @@
 class Conexao{
 
     public static function conectar(){
-        $cnx = "?????";
+        $cnx = new PDO('mysql:host=localhost;dbname=dbfunding', 'root', 'admin');
 
         
 

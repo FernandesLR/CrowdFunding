@@ -3,7 +3,7 @@
 class Home {
     public static function index() {
         // Incluir a homepage
-        include 'view/homePage.php';
+        include_once 'view/homePage.php';
     }
     
     public static function login() {
