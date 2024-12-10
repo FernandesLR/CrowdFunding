@@ -4,6 +4,7 @@ require_once __DIR__ . '/../DAO/DoadorDAO.php';
 require_once __DIR__ . '/../DAO/DonatarioDAO.php'; 
 require_once __DIR__ . '/../model/Usuario.php'; 
 require_once __DIR__ . '/../model/Doador.php';
+require_once __DIR__ . '/../model/Donatario.php';
 require_once __DIR__ . '/../Conexao/Conexao.php'; 
 
 
@@ -47,13 +48,14 @@ class UsuarioController {
             $doadorDAO->inserirDoador($doador, $id);
         
         }else if ($tipoUsuario == 'donatario') {
+            // Criar instância de Donatario
             $donatario = new Donatario();
-            $donatario->setUsuarioId($usuario->getCod());
-            $donatario->setCpfCnpj($cpfCnpj);
-            $donatario->setTipoDocumento('cpf');
-
+            $donatario->setUsuarioId($id); // Obtendo o ID do usuário
+            $donatario->setCpfCnpj($cpfCnpj); // Setando CPF ou CNPJ
+        
+            // Inserir o donatário no banco
             $donatarioDAO = new DonatarioDAO();
-            $donatarioDAO->inserirDonatario($donatario);
+            $donatarioDAO->inserirDonatario($donatario, $id); // Passa o ID do usuário ao DAO
         }
 
         // Redireciona após o cadastro

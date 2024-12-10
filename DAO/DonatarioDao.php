@@ -1,61 +1,65 @@
 <?php
 require_once __DIR__ . '/../Conexao/Conexao.php';
 
-
 class DonatarioDAO {
-    
-    // Função para inserir um novo donatário no banco de dados
-    public function inserirDonatario(Donatario $donatario) {
-        // Conecta ao banco de dados
+
+    // Método para inserir um novo donatário
+    public function inserirDonatario($donatario, $usuarioId) {
         $cnx = Conexao::conectar();
-        
-        try {
-            // SQL para inserir um novo donatário
-            $sql = "INSERT INTO donatarios (usuario_id, cpf_cnpj, tipo_documento) 
-                    VALUES (:usuario_id, :cpf_cnpj, :tipo_documento)";
-            
-            // Prepara a consulta
-            $stmt = $cnx->prepare($sql);
-            
-            // Vincula os parâmetros à consulta
-            $stmt->bindParam(':usuario_id', $donatario->getUsuarioId(), PDO::PARAM_INT);
-            $stmt->bindParam(':cpf_cnpj', $donatario->getCpfCnpj(), PDO::PARAM_STR);
-            $stmt->bindParam(':tipo_documento', $donatario->getTipoDocumento(), PDO::PARAM_STR);
-            
-            // Executa a consulta
-            $stmt->execute();
-            
-            // Retorna verdadeiro se a inserção for bem-sucedida
-            return true;
-        } catch (PDOException $e) {
-            // Caso ocorra um erro, exibe a mensagem de erro
-            error_log("Erro ao inserir donatário: " . $e->getMessage());
-            return false;
+
+        // Verificar se o ID foi encontrado
+        if ($usuarioId != null) {
+            try {
+                // Inserção do donatário na tabela 'donatarios'
+                $sql = "INSERT INTO donatarios (usuario_id, cpf_cnpj) VALUES (:usuario_id, :cpf_cnpj);";
+                $stmt = $cnx->prepare($sql);
+
+                // Obtendo os valores do objeto donatário
+                $cpfCnpj = $donatario->getCpfCnpj();  // CPF ou CNPJ do donatário
+
+                // Vinculando os parâmetros
+                $stmt->bindValue(':usuario_id', $usuarioId);
+                $stmt->bindValue(':cpf_cnpj', $cpfCnpj);
+
+                // Executando a inserção
+                $stmt->execute();
+            } catch (PDOException $e) {
+                // Log de erro
+                echo "Erro ao inserir donatário: " . $e->getMessage();
+            }
+        } else {
+            // Log para erro caso o usuário não seja encontrado
+            echo "Erro: Usuário com o CPF/CNPJ '{$donatario->getCpfCnpj()}' não encontrado.";
         }
     }
 
-    // Função para buscar um donatário por ID (caso necessário)
-    public function buscarDonatarioPorId($id) {
+    // Método para buscar o ID do usuário baseado no CPF/CNPJ do donatário
+    public function getUsuarioIdByCpfCnpj($cpfCnpj) {
         $cnx = Conexao::conectar();
-        
         try {
-            // SQL para buscar o donatário pelo ID
-            $sql = "SELECT * FROM donatarios WHERE usuario_id = :usuario_id";
-            
-            // Prepara a consulta
+            // Consulta para buscar o ID do usuário baseado no CPF/CNPJ
+            $sql = "
+                SELECT u.id
+                FROM usuarios u
+                INNER JOIN donatarios d ON u.id = d.usuario_id
+                WHERE d.cpf_cnpj = :cpf_cnpj
+            ";
             $stmt = $cnx->prepare($sql);
-            
-            // Vincula o parâmetro à consulta
-            $stmt->bindParam(':usuario_id', $id, PDO::PARAM_INT);
-            
-            // Executa a consulta
+            $stmt->bindParam(':cpf_cnpj', $cpfCnpj, PDO::PARAM_STR);
             $stmt->execute();
-            
-            // Retorna o resultado como um array associativo
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            // Verificando o retorno
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
+                return $result['id'];
+            } else {
+                // Caso não encontre
+                echo "Nenhum usuário encontrado para o CPF/CNPJ '{$cpfCnpj}'.";
+                return null;
+            }
         } catch (PDOException $e) {
-            // Caso ocorra um erro, exibe a mensagem de erro
-            error_log("Erro ao buscar donatário por ID: " . $e->getMessage());
+            // Erro ao tentar buscar o usuário
+            error_log("Erro ao buscar usuário por CPF/CNPJ: " . $e->getMessage());
             return null;
         }
     }
