@@ -68,10 +68,7 @@
         .carousel-item {
             position: relative;
         }
-
-        .image-container {
-            position: relative;
-        }
+        
 
         .slide-image {
             max-width: 100%;
@@ -117,7 +114,7 @@
             padding-left: 20%;
         }
         .projetosWrapper{
-            margin-top: 5%;
+            margin-top: 12%;
         }
         .cardWrapper {
             display: flex; /* Define Flexbox */
@@ -205,42 +202,48 @@
 </header>
 
 
+<section id="carrossel" style="min-height: 40vh; max-height: 40vh;">
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" style="border-bottom: 2px solid rgb(143, 143, 143); background-color: rgba(0, 0, 0, 0.781);">
-      <div class="carousel-inner">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-          <img src="assets/img.jfif" class="d-block w-100 slide-image" alt="..." style="justify-self: center; max-width: 60%; background-color: transparent">
-          <div class="carousel-caption custom-caption">
-            <h2>Título Slide 1</h2>
-            <a href="index.php?action=ver-projeto">
-              <button type="button" class="btn btn-danger">Conhecer Projeto</button>
-            </a>
-          </div>
+        <div class="carousel-inner">
+            <?php
+            include_once 'DAO/CampanhaDao.php';  // Inclua a DAO corretamente
+            
+            // Busca as campanhas ativas
+            $campanhas = CampanhaDAO::buscarCampanhasAtivas();
+            $ativa = true; // Variável para garantir que apenas o primeiro slide tenha a classe "active"
+            foreach ($campanhas as $campanha): 
+                $imagem = $campanha->img ? $campanha->img : 'assets/img.jfif'; // Imagem padrão se não houver imagem no banco
+                $titulo = $campanha->titulo;
+                $id = $campanha->id;
+            ?>
+                <!-- Slide -->
+                <div class="carousel-item <?php echo $ativa ? 'active' : ''; ?>">
+                    <img src="<?php echo $imagem; ?>" class="d-block w-100 slide-image" alt="Imagem da campanha" style="justify-self: center; max-width: 60%; height: 600px; min-height: 600px; object-fit: cover; background-color: transparent;">
+                    <div class="carousel-caption custom-caption">
+                        <h2><?php echo $titulo; ?></h2>
+                        <a href="index.php?action=ver-projeto&id=<?php echo $id; ?>">
+                            <button type="button" class="btn btn-danger">Conhecer Projeto</button>
+                        </a>
+                    </div>
+                </div>
+                <?php $ativa = false; // Garantir que o primeiro slide será ativo ?>
+            <?php endforeach; ?>
         </div>
-        <!-- Slide 2 -->
 
-        
-        <div class="carousel-item">
-          <img src="assets/img2.jfif" class="d-block w-100 slide-image" alt="..." style="justify-self: center; max-width: 60%;">
-          <div class="carousel-caption custom-caption">
-            <h2>Título Slide 2</h2>
-            <a href="index.php?action=ver-projeto">
-              <button type="button" class="btn btn-danger">Conhecer Projeto</button>
-            </a>
-          </div>
-        </div>
-        </div>
-      </div>
-      <!-- Botões de navegação -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+        <!-- Botões de navegação -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
+</section>
+
+
+
 
 
 
@@ -248,72 +251,41 @@
 
       <section class="projetosWrapper">
         <h2>Projetos em destaque</h2>
+
         <div class="cardWrapper">
-
-          <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-            <div class="card" style="width: 18rem;">
-                  <img src="assets/img.jfif" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                      <div class="progress-bar" style="width: 25%"></div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                      <span>25% Arrecadado</span>
-                      
-                      <span>Falta 19 dias!</span>
-  
-                    </div>
-                  </div>
-              </div>
-
-
-          </a>
-          <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-            <div class="card" style="width: 18rem;">
-                  <img src="assets/img.jfif" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                      <div class="progress-bar" style="width: 25%"></div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                      <span>25% Arrecadado</span>
-                      
-                      <span>Falta 19 dias!</span>
-  
-                    </div>
-                  </div>
-              </div>
-
-
-          </a>
-
-          <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-            <div class="card" style="width: 18rem;">
-                  <img src="assets/img.jfif" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                      <div class="progress-bar" style="width: 25%"></div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                      <span>25% Arrecadado</span>
-                      
-                      <span>Falta 19 dias!</span>
-  
-                    </div>
-                  </div>
-              </div>
-
-
-          </a>
-          
-
-        </div>
+              <?php
+              
+              $campanhaDAO = new CampanhaDAO();
+              $campanhas = $campanhaDAO->listarCampanhas();
+              // Iterar sobre todas as campanhas e gerar os cards
+              foreach ($campanhas as $campanha) {
+                  // Acessando as propriedades do objeto corretamente com os métodos get
+                  $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
+                  $descricao = $campanha->getDescricao(); // Usando o método getDescricao()
+                  $imagem = $campanha->getImagem(); // Usando o método getImagem()
+                  $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
+                  $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
+              ?>
+                  <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
+                      <div class="card" style="width: 18rem;">
+                          <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                          <div class="card-body">
+                              <h5 class="card-title"><?= $titulo ?></h5>
+                              <p class="card-text"><?= $descricao ?></p>
+                              <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                  <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                  <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                  <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                              </div>
+                          </div>
+                      </div>
+                  </a>
+              <?php
+              }
+              ?>
+          </div>
 
       </section>
 

@@ -20,6 +20,7 @@ class ProjetoController {
         $dataFim = $_POST['data_fim'] ?? null;
         $urlImagem = $_POST['url_imagem'] ?? '';  // URL da imagem fornecida pelo usuário
         $donatarioId = $_SESSION['usuario_id'];
+        $recompensa = $_POST['recompensa'] ?? '';
 
         // Cria um objeto Campanha
         $campanha = new Campanha();
@@ -30,6 +31,9 @@ class ProjetoController {
         $campanha->setDataFim($dataFim);
         $campanha->setStatus('ativa');
         $campanha->setImagem($urlImagem);
+        $campanha->setArrecadado(0);
+        $campanha->setRecompensa($recompensa);
+
 
         // Insere a campanha no banco de dados
         try {

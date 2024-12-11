@@ -1,8 +1,9 @@
 <?php
-
+include_once 'DAO/CampanhaDao.php';
 class Home {
     public static function index() {
         // Incluir a homepage
+        
         include_once 'view/homePage.php';
     }
     

@@ -5,11 +5,13 @@ class Campanha {
     private $donatarioId;
     private $titulo;
     private $descricao;
+    private $arrecadado;
     private $metaFinanceira;
     private $dataInicio;
     private $dataFim;
     private $status;
     private $imagem;
+    private $recompensa;
 
     // Getters e setters para os outros atributos...
 
@@ -50,6 +52,15 @@ class Campanha {
     public function getMetaFinanceira() {
         return $this->metaFinanceira;
     }
+
+    public function setArrecadado($a){
+        $this->arrecadado = $a;
+    }
+    public function getArrecadado(){
+        return $this->arrecadado;
+    }
+    
+
     
     public function setMetaFinanceira($metaFinanceira) {
         $this->metaFinanceira = $metaFinanceira;
@@ -90,6 +101,14 @@ class Campanha {
     
     public function getImagem() {
         return $this->imagem;
+    }
+    public function setRecompensa($r) {
+        $this->recompensa = $r;
+    }
+    
+    
+    public function getRecompensa() {
+        return $this->recompensa;
     }
 }
 

@@ -193,7 +193,18 @@
     </style>
 </head>
 <body>
-  <main>
+<?php
+include_once 'DAO/CampanhaDao.php';  // Inclua a classe DAO
+
+// Verifica se o ID foi passado pela URL
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];  // Pega o ID da URL
+    $campanhaDAO = new CampanhaDAO();
+    $campanha = $campanhaDAO->buscarCampanhaPorId($id);
+    }
+?>
+
+<main>
     <header>
         <span>
             <a href="index.php?action=home" style="text-decoration: none; color:#fff; display:flex;">
@@ -201,51 +212,67 @@
                 <p>Hunters</p>
             </a>
         </span>
-        <input type="text" placeholder="Buscar projetos">
-        <a href="index.php?acao=criarProjeto">
-          <button>Criar Projeto</button>
-        </a>
-        <a href="index.php?action=Usuario">
-          <button class="btnLogin">Login</button>
-        </a>
     </header>
 
     <section>
-        <h1>Nome do Projeto</h1>
-        <p>Uma breve descrição do projeto, explicando sua finalidade e impacto.</p>
-        <div class="project-info">
-            <div>
-                <img src="https://via.placeholder.com/300" alt="Imagem do Projeto">
-            </div>
-            <div class="project-details">
-                <p class="goal">Arrecadado: R$ 12.980</p>
-                <p>185 Doadores</p>
-                <div class="progress-bar">
-                    <div></div>
+        <?php if (isset($campanha)): ?>
+            <h1><?php echo $campanha->getTitulo(); ?></h1>
+            <div class="project-info">
+                <div>
+                <img src="<?php echo $campanha->getImagem(); ?>" alt="Imagem do Projeto">
                 </div>
-                <div class="status">
-                    <span>85% alcançados</span>
-                    <span>25 dias restantes</span>
+                <div class="project-details">
+                    <p class="goal">Arrecadado: R$ <?php echo number_format($campanha->getMetaFinanceira(), 2, ',', '.'); ?></p>
+                    <p>185 Doadores</p>
+                    <div class="progress-bar">
+                        <div style="width: 85%;"></div> <!-- Exemplo de progresso -->
+                    </div>
+                    <div class="status">
+                        <span>85% alcançados</span>
+                        <span>25 dias restantes</span>
+                    </div>
+                    <p class="goal">Meta: R$ <?php echo number_format($campanha->getMetaFinanceira(), 2, ',', '.'); ?></p>
                 </div>
-                <p class="goal">Meta: R$ 18.980</p>
             </div>
-        </div>
-        <button>Apoiar Projeto</button>
+            <a href="index.php?action=apoioProjeto&id=<?php echo $campanha->getId(); ?>">
+                <button>Apoiar Projeto</button>
+            </a>
+        <?php else: ?>
+            <p>Projeto não encontrado.</p>
+        <?php endif; ?>
     </section>
 
     <section>
-      <ul class="nav nav-underline">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Sobre</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Recompensas</a>
-        </li>
-      </ul>
-        <p>Aqui está a descrição detalhada do projeto. Explicamos os objetivos, como os recursos arrecadados serão utilizados e qual impacto esperamos causar.</p>
+        <p class="d-inline-flex gap-1">
+            <!-- Botão "Sobre" -->
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseSobre" role="button" aria-expanded="false" aria-controls="collapseSobre" style="background-color: transparent; color: #2c3e50; border-style: none; border-bottom: 2px solid blue; margin-right: 20px;">
+                Sobre
+            </a>
+            
+            <!-- Botão "Recompensa" -->
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRecompensa" aria-expanded="false" aria-controls="collapseRecompensa" style="background-color: transparent; color: #2c3e50; border-style: none; border-bottom: 2px solid blue;">
+                Recompensa
+            </button>
+        </p>
+
+        <!-- Colapso do conteúdo "Sobre" -->
+        <div class="collapse" id="collapseSobre">
+            <div class="card card-body">
+                <?php echo $campanha->getDescricao() ? $campanha->getDescricao() : "O donatario não adicionou nenhuma descrição"; ?>
+            </div>
+        </div>
+
+        <!-- Colapso do conteúdo "Recompensa" -->
+        <div class="collapse" id="collapseRecompensa">
+            <div class="card card-body">
+                <?php echo $campanha->getRecompensa() ? $campanha->getRecompensa() : "O donatario não adicionou nenhuma recompensa"; ?>
+            </div>
+        </div>
     </section>
 
-  </main>
+</main>
+
+
   <footer>
     <div class="footer-content">
         <div class="info">

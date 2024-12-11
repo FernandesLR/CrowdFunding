@@ -284,77 +284,43 @@
     <hr>
 
     <section class="projetosWrapper">
-            <h2>Criei</h2>
-            <div class="cardWrapper">
-
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-
-            
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </a>
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-
+        <h2>Criei</h2>
+        <div class="cardWrapper">
+            <?php
+            include_once 'DAO/CampanhaDao.php';
+            $campanhaDAO = new CampanhaDAO();
+            $campanhas = $campanhaDAO->listarCampanhas();
+            // Iterar sobre todas as campanhas e gerar os cards
+            foreach ($campanhas as $campanha) {
+                // Acessando as propriedades do objeto corretamente com os métodos get
+                $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
+                $descricao = $campanha->getDescricao(); // Usando o método getDescricao()
+                $imagem = $campanha->getImagem(); // Usando o método getImagem()
+                $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
+                $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
+            ?>
+                <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
+                    <div class="card" style="width: 18rem;">
+                        <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $titulo ?></h5>
+                            <p class="card-text"><?= $descricao ?></p>
+                            <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-
-            </a>
-
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </a>
-            
-
+                </a>
+            <?php
+            }
+            ?>
         </div>
-
     </section>
+
       
   <footer>
     <div class="footer-content">
