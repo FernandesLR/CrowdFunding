@@ -3,9 +3,12 @@ session_start(); // Sempre inicializar no topo
 
 include 'controller/Home.php';
 include 'controller/UsuarioController.php';
+include 'controller/ProjetoController.php';
 
 // Inicializa o controlador de usuário
 $usuario = new UsuarioController();
+$campanha = new ProjetoController();
+
 
 // Função para lidar com GET
 // Função para lidar com GET
@@ -34,6 +37,9 @@ function handleGet($action) {
         case 'home':
             Home::index();
             break;
+        case 'criarProjeto':
+            Home::cadastrarProjeto();
+            break;
         default:
             Home::index();
             break;
@@ -42,13 +48,17 @@ function handleGet($action) {
 
 
 // Função para lidar com POST
-function handlePost($action, $usuario) {
+function handlePost($action, $usuario, $campanha) {
+    
     switch ($action) {
         case 'cadastrar':
             $usuario->cadastrar();
             break;
         case 'login':
             $usuario->login();
+            break;
+        case 'campanha':
+            $campanha->criarCampanha();
             break;
         default:
             Home::index();
@@ -60,7 +70,7 @@ function handlePost($action, $usuario) {
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
     handleGet($_GET['action']);
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    handlePost($_POST['action'], $usuario);
+    handlePost($_POST['action'], $usuario, $campanha);
 } else {
     Home::index();
 }

@@ -32,6 +32,9 @@ class Home {
     public static function projetos(){
         include 'view/projetos.php';
     }
+    public static function cadastrarProjeto(){
+        include 'view/criarProjeto.php';
+    }
 }
 
 

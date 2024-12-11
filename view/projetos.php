@@ -278,7 +278,81 @@
             </a>
             
 
-            </div>
+        </div>
+
+    </section>
+    <hr>
+
+    <section class="projetosWrapper">
+            <h2>Criei</h2>
+            <div class="cardWrapper">
+
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+
+            
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+
+            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
+                <div class="card" style="width: 18rem;">
+                    <img src="assets/img.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                        <span>25% Arrecadado</span>
+                        
+                        <span>Falta 19 dias!</span>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </a>
+            
+
+        </div>
 
     </section>
       

@@ -152,48 +152,58 @@
     </style>
 </head>
 <body>
-    <header style="position: relative;">
-        <span>
-            <a href="#" style="text-decoration: none; color:#fff; display:flex;">
-                <p>Geek</p>
-                <p>Hunters</p>
-            </a>
-        </span>
-
-        <input type="text" placeholder="Buscar projetos">
-
-        <a href="index.php?acao=criarProjeto">
-            <button>Criar Projeto</button>
+<header style="position: relative;">
+    <span>
+        <a href="#" style="text-decoration: none; color:#fff; display:flex;">
+            <p>Geek</p>
+            <p>Hunters</p>
         </a>
+    </span>
 
-        <?php
-          $login = isset($_SESSION['usuario_id']); // Verifica se o usuário está logado
+    <input type="text" placeholder="Buscar projetos">
 
-          if ($login) {
-              // Menu de usuário logado
-              echo '
-              <div class="dropdown" style="position: relative;">
-                  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
-                      Meu Menu
-                  </button>
-                  <div class="collapse" id="userMenu" style="position: absolute; top: 100%; right: 0; width: 200px; z-index: 1000;">
-                      <div class="card card-body">
-                          <a href="index.php?action=perfil">Meu Perfil</a>
-                          <a href="index.php?action=meus-projetos">Meus Projetos</a>
-                          <a href="index.php?action=logout">Sair</a>
-                      </div>
-                  </div>
-              </div>';
-          } else {
-              // Botão de login para visitantes
-              echo '
-              <a href="index.php?action=login">
-                  <button class="btnLogin">Login</button>
-              </a>';
-          }
-          ?>
+    <?php
+    // Verifica se o usuário está logado
+    $login = isset($_SESSION['usuario_id']);
+    
+    // Verifica se é donatário
+    $isDonatario = $login && isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'donatario';
 
-    </header>
+    if ($isDonatario) {
+        // Exibe o botão "Criar Projeto" apenas para donatários
+        echo '
+        <a href="index.php?action=criarProjeto">
+            <button>Criar Projeto</button>
+        </a>';
+    }
+    ?>
+
+    <?php
+    if ($login) {
+        // Menu de usuário logado
+        echo '
+        <div class="dropdown" style="position: relative;">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
+                Meu Menu
+            </button>
+            <div class="collapse" id="userMenu" style="position: absolute; top: 100%; right: 0; width: 200px; z-index: 1000;">
+                <div class="card card-body">
+                    <a href="index.php?action=perfil">Meu Perfil</a>
+                    <a href="index.php?action=meus-projetos">Meus Projetos</a>
+                    <a href="index.php?action=logout">Sair</a>
+                </div>
+            </div>
+        </div>';
+    } else {
+        // Botão de login para visitantes
+        echo '
+        <a href="index.php?action=login">
+            <button class="btnLogin">Login</button>
+        </a>';
+    }
+    ?>
+</header>
+
 
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" style="border-bottom: 2px solid rgb(143, 143, 143); background-color: rgba(0, 0, 0, 0.781);">
       <div class="carousel-inner">
