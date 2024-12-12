@@ -84,11 +84,16 @@
             <label for="descricao">Descrição</label>
             <textarea id="descricao" name="descricao" rows="5" placeholder="Descreva sua campanha" required></textarea>
 
+            <label for="descricao">Recompensa</label>
+            <textarea id="recompensa" name="recompensa" rows="5" placeholder="Recompensa por apoiar (opcional)" required></textarea>
+
             <label for="meta_financeira">Meta Financeira (R$)</label>
             <input type="number" id="meta_financeira" name="meta_financeira" step="0.01" placeholder="Exemplo: 1000.00" required>
 
             <label for="data_fim">Data de Término</label>
             <input type="date" id="data_fim" name="data_fim">
+            <label for="titulo">Insira chave pix</label>
+            <input type="text" id="pix" name="pix" placeholder="Chave Pix" required>
 
             <!-- Campo para URL da Imagem -->
             <label for="url_imagem">Imagem da Campanha (URL)</label>

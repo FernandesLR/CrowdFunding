@@ -109,12 +109,23 @@
 
         <input type="text" placeholder="Buscar projetos">
 
-        <a href="index.php?acao=criarProjeto">
-            <button>Criar Projeto</button>
-        </a>
-
         <?php
-        $login = true;
+            // Verifica se o usuário está logado
+            $login = isset($_SESSION['usuario_id']);
+            
+            // Verifica se é donatário
+            $isDonatario = $login && isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'donatario';
+            
+            if ($isDonatario) {
+                // Exibe o botão "Criar Projeto" apenas para donatários
+                echo '
+                <a href="index.php?acao=criarProjeto">
+                    <button>Criar Projeto</button>
+                </a>
+                ';
+            }
+        ?>
+        <?php
 
         echo $login ? 
         '
@@ -283,43 +294,52 @@
     </section>
     <hr>
 
-    <section class="projetosWrapper">
-        <h2>Criei</h2>
-        <div class="cardWrapper">
-            <?php
-            include_once 'DAO/CampanhaDao.php';
-            $campanhaDAO = new CampanhaDAO();
-            $campanhas = $campanhaDAO->listarCampanhas();
-            // Iterar sobre todas as campanhas e gerar os cards
-            foreach ($campanhas as $campanha) {
-                // Acessando as propriedades do objeto corretamente com os métodos get
-                $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
-                $descricao = $campanha->getDescricao(); // Usando o método getDescricao()
-                $imagem = $campanha->getImagem(); // Usando o método getImagem()
-                $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
-                $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
-            ?>
-                <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
-                    <div class="card" style="width: 18rem;">
-                        <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= $titulo ?></h5>
-                            <p class="card-text"><?= $descricao ?></p>
-                            <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+    <?php
+        if ($isDonatario) {
+            // Exibe o botão "Criar Projeto" apenas para donatários
+            echo '
+            
+            <section class="projetosWrapper">
+                <h2>Criei</h2>
+                <div class="cardWrapper">
+                    <?php
+                    include_once "DAO/CampanhaDao.php";
+                    $campanhaDAO = new CampanhaDAO();
+                    $campanhas = $campanhaDAO->listarCampanhas();
+                    // Iterar sobre todas as campanhas e gerar os cards
+                    foreach ($campanhas as $campanha) {
+                        // Acessando as propriedades do objeto corretamente com os métodos get
+                        $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
+                        $descricao = $campanha->getDescricao(); // Usando o método getDescricao()
+                        $imagem = $campanha->getImagem(); // Usando o método getImagem()
+                        $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
+                        $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
+                    ?>
+                        <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
+                            <div class="card" style="width: 18rem;">
+                                <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= $titulo ?></h5>
+                                    <p class="card-text"><?= $descricao ?></p>
+                                    <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                        <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                        <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                                <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
-                                <span>Falta <?= round($diasRestantes) ?> dias!</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            <?php
-            }
-            ?>
-        </div>
-    </section>
+                        </a>
+                    <?php
+                    }
+                    ?>
+                </div>
+            </section>
+            ';
+        }
+    ?>
+
 
       
   <footer>

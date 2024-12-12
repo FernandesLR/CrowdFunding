@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geek Hunters</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    
     <style>
         * {
             margin: 0;
@@ -90,21 +90,6 @@
         section button:hover {
             background-color: #c0392b;
         }
-        .progress-bar {
-            width: 100%;
-            background: #ddd;
-            height: 10px;
-            border-radius: 5px;
-            margin: 0.5rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-        .progress-bar span {
-            display: block;
-            height: 100%;
-            background-color: #2ecc71;
-            width: 85%; /* Percentual de progresso */
-        }
         footer {
             background-color: #2c3e50;
             color: #fff;
@@ -139,18 +124,6 @@
             object-fit: cover;
         }
 
-        .progress-bar {
-            background: #ecf0f1;
-            height: 10px;
-            border-radius: 5px;
-            margin: 1rem 0;
-        }
-
-        .progress-bar div {
-            background: #27ae60;
-            height: 100%;
-            width: 85%; /* Percentual do progresso */
-        }
 
         .project-details {
             flex: 2;
@@ -186,14 +159,26 @@
             margin-top: 1rem;
             width: 100%;
         }
+        .progress {
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+    height: 1rem;
+    overflow: hidden;
+    position: relative;
+}
 
+
+        
         button:hover {
             background-color: #c0392b;
         }
     </style>
 </head>
 <body>
+
 <?php
+
+
 include_once 'DAO/CampanhaDao.php';  // Inclua a classe DAO
 
 // Verifica se o ID foi passado pela URL
@@ -201,7 +186,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];  // Pega o ID da URL
     $campanhaDAO = new CampanhaDAO();
     $campanha = $campanhaDAO->buscarCampanhaPorId($id);
-    }
+}
 ?>
 
 <main>
@@ -219,37 +204,49 @@ if (isset($_GET['id'])) {
             <h1><?php echo $campanha->getTitulo(); ?></h1>
             <div class="project-info">
                 <div>
-                <img src="<?php echo $campanha->getImagem(); ?>" alt="Imagem do Projeto">
+                    <img src="<?php echo $campanha->getImagem(); ?>" alt="Imagem do Projeto">
                 </div>
                 <div class="project-details">
-                    <p class="goal">Arrecadado: R$ <?php echo number_format($campanha->getMetaFinanceira(), 2, ',', '.'); ?></p>
+                    <p class="goal">Arrecadado: R$ <?php echo number_format($campanha->getArrecadado(), 2, ',', '.'); ?></p>
                     <p>185 Doadores</p>
-                    <div class="progress-bar">
-                        <div style="width: 85%;"></div> <!-- Exemplo de progresso -->
+
+                    <!-- Barra de progresso dinâmica -->
+                    <?php
+                        $meta = $campanha->getMetaFinanceira();
+                        $arrecadado = $campanha->getArrecadado();
+                        // Calculando o progresso
+                        $progresso = ($meta > 0) ? ($arrecadado / $meta) * 100 : 0;
+                        $progresso = min($progresso, 100); // Garante que o progresso não ultrapasse 100%
+                    ?>
+                    <div class="progress" role="progressbar" aria-label="Progresso do Projeto" aria-valuenow="<?php echo $progresso; ?>" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: <?php echo $progresso; ?>%; background-color: green;"></div>
                     </div>
+
                     <div class="status">
-                        <span>85% alcançados</span>
-                        <span>25 dias restantes</span>
+                        <span><?php echo round($progresso); ?>% alcançados</span>
+                        <span><?php echo round((strtotime($campanha->getDataFim()) - time()) / 86400); ?> dias restantes</span>
                     </div>
                     <p class="goal">Meta: R$ <?php echo number_format($campanha->getMetaFinanceira(), 2, ',', '.'); ?></p>
                 </div>
             </div>
-            <a href="index.php?action=apoioProjeto&id=<?php echo $campanha->getId(); ?>">
+            <div class="progress" role="progressbar" aria-label="Progresso do Projeto" aria-valuenow="<?php echo $progresso; ?>" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: <?php echo round($progresso); ?>%; background-color: green;"></div>
+                    </div>
+            <a href="index.php?action=apoioProjeto&id=<?php echo $campanha->getId(); ?>" id="apoioProjetoLink">
                 <button>Apoiar Projeto</button>
             </a>
+
         <?php else: ?>
             <p>Projeto não encontrado.</p>
         <?php endif; ?>
     </section>
 
+
     <section>
         <p class="d-inline-flex gap-1">
-            <!-- Botão "Sobre" -->
             <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseSobre" role="button" aria-expanded="false" aria-controls="collapseSobre" style="background-color: transparent; color: #2c3e50; border-style: none; border-bottom: 2px solid blue; margin-right: 20px;">
                 Sobre
             </a>
-            
-            <!-- Botão "Recompensa" -->
             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRecompensa" aria-expanded="false" aria-controls="collapseRecompensa" style="background-color: transparent; color: #2c3e50; border-style: none; border-bottom: 2px solid blue;">
                 Recompensa
             </button>
@@ -258,35 +255,69 @@ if (isset($_GET['id'])) {
         <!-- Colapso do conteúdo "Sobre" -->
         <div class="collapse" id="collapseSobre">
             <div class="card card-body">
-                <?php echo $campanha->getDescricao() ? $campanha->getDescricao() : "O donatario não adicionou nenhuma descrição"; ?>
+                <?php echo !empty($campanha->getDescricao()) ? $campanha->getDescricao() : "O donatário não adicionou nenhuma descrição."; ?>
             </div>
         </div>
 
         <!-- Colapso do conteúdo "Recompensa" -->
         <div class="collapse" id="collapseRecompensa">
             <div class="card card-body">
-                <?php echo $campanha->getRecompensa() ? $campanha->getRecompensa() : "O donatario não adicionou nenhuma recompensa"; ?>
+                <?php echo !empty($campanha->getRecompensa()) ? $campanha->getRecompensa() : "O donatário não adicionou nenhuma recompensa."; ?>
             </div>
         </div>
     </section>
-
 </main>
 
-
-  <footer>
+<footer>
     <div class="footer-content">
         <div class="info">
-          <h3>Start Crowdfunding</h3>
-          <p>Fund your cause or project today!</p>
+            <h3>Start Crowdfunding</h3>
+            <p>Fund your cause or project today!</p>
         </div>
         <div class="links">
-          <h4>About Us</h4>
-          <a href="#">Terms of Service</a>
-          <a href="#">Privacy Policy</a>
+            <h4>About Us</h4>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
         </div>
-      </div>
-      <p>© 2024 Geek Hunters - Todos os direitos reservados.</p>
-  </footer>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
+    </div>
+    <p>© 2024 Geek Hunters - Todos os direitos reservados.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    document.getElementById('apoioProjetoLink').addEventListener('click', function(event) {
+        event.preventDefault(); // Impede o link de ser seguido imediatamente
+
+        // Cria o conteúdo do pop-up
+        var popup = document.createElement('div');
+        popup.style.position = 'fixed';
+        popup.style.top = '50%';
+        popup.style.left = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
+        popup.style.backgroundColor = '#fff';
+        popup.style.padding = '20px';
+        popup.style.border = '1px solid #ccc';
+        popup.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        popup.style.zIndex = '1000';
+
+        var popupContent = document.createElement('div');
+        popupContent.innerHTML = '<h2>Chave pix do donatário</h2><br>' +
+            '<p><?php echo $campanha->getPix()?></p>' +
+            '<button id="cancelarApoio">fechar</button>';
+
+        popup.appendChild(popupContent);
+        document.body.appendChild(popup);
+
+        // Adiciona a funcionalidade para fechar o pop-up
+        document.getElementById('confirmarApoio').addEventListener('click', function() {
+            window.location.href = event.target.href; // Redireciona para o link após confirmar
+        });
+
+        document.getElementById('cancelarApoio').addEventListener('click', function() {
+            document.body.removeChild(popup); // Fecha o pop-up
+        });
+    });
+</script>
+
 </body>
 </html>

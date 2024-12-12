@@ -21,6 +21,7 @@ class ProjetoController {
         $urlImagem = $_POST['url_imagem'] ?? '';  // URL da imagem fornecida pelo usuário
         $donatarioId = $_SESSION['usuario_id'];
         $recompensa = $_POST['recompensa'] ?? '';
+        $pix = $_POST['pix'];
 
         // Cria um objeto Campanha
         $campanha = new Campanha();
@@ -33,6 +34,7 @@ class ProjetoController {
         $campanha->setImagem($urlImagem);
         $campanha->setArrecadado(0);
         $campanha->setRecompensa($recompensa);
+        $campanha->setPix($pix);
 
 
         // Insere a campanha no banco de dados
@@ -57,6 +59,7 @@ class ProjetoController {
         }
     }
 
+    
     // Método para finalizar uma campanha
     public function finalizarCampanha($campanhaId) {
         try {
@@ -78,6 +81,7 @@ class ProjetoController {
             echo "Erro ao cancelar campanha: " . $e->getMessage();
         }
     }
+    
 }
 
 ?>

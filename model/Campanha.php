@@ -12,6 +12,7 @@ class Campanha {
     private $status;
     private $imagem;
     private $recompensa;
+    private $pix;
 
     // Getters e setters para os outros atributos...
 
@@ -109,6 +110,12 @@ class Campanha {
     
     public function getRecompensa() {
         return $this->recompensa;
+    }
+    public function setPix($p){
+        $this->pix = $p;
+    }
+    public function getPix(){
+        return $this->pix;
     }
 }
 

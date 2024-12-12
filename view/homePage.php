@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bem vindo!</title>
-    <link rel="stylesheet" href="/estilos/homepage.css">
+    <link rel="stylesheet" href="./estilos/homepage.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
@@ -65,8 +65,49 @@
             border-radius: 6px;
         }
 
+        .search-container {
+            position: relative;
+            width: 50%;
+
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 0 0 5px 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: #f0f0f0;
+        }
+
         .carousel-item {
             position: relative;
+            margin-bottom: 10%;
         }
         
 
@@ -114,16 +155,27 @@
             padding-left: 20%;
         }
         .projetosWrapper{
-            margin-top: 12%;
+            margin-top: 30%;
+        }
+        @media(max-width: 1500px){
+            .projetosWrapper{
+                margin-top: 46%;
+            }
+        }
+        @media(max-width: 900px) {
+            .projetosWrapper{
+                margin-top: 70%;
+            }
+            
         }
         .cardWrapper {
             display: flex; /* Define Flexbox */
             flex-direction: row; /* Itens lado a lado (horizontalmente) */
             flex-wrap: wrap; /* Permite quebra de linha se necessário */
-            width: 50%;
+            width: 60%;
             margin: auto;
             gap: 2rem; /* Espaço entre os itens */
-            margin-top: 10%; /* Espaçamento superior */
+            margin-top: 2%; /* Espaçamento superior */
         }
 
         .footer-content {
@@ -131,6 +183,7 @@
           background-color: #000;
           color: #fff;
           padding: 2%;
+          text-align: center;
         }
 
         .footer-content h3, .footer-content h4 {
@@ -157,7 +210,14 @@
         </a>
     </span>
 
-    <input type="text" placeholder="Buscar projetos">
+    <div class="search-container">
+        <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Buscar projetos..." 
+            autocomplete="off">
+        <div id="suggestions" class="suggestions"></div>
+    </div>
 
     <?php
     // Verifica se o usuário está logado
@@ -202,7 +262,7 @@
 </header>
 
 
-<section id="carrossel" style="min-height: 40vh; max-height: 40vh;">
+<section id="carrossel" style="min-height: 40vh; max-height: 40vh; margin-bottom: 20%;">
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" style="border-bottom: 2px solid rgb(143, 143, 143); background-color: rgba(0, 0, 0, 0.781);">
         <div class="carousel-inner">
             <?php
