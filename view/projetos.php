@@ -99,46 +99,44 @@
     </style>
 </head>
 <body>
-    <?php
-
-
+<?php
     include_once 'DAO/CampanhaDao.php';  // Inclua a classe DAO
     
     // Verifica se o ID foi passado pela URL
     if (isset($_SESSION['usuario_id'])) {
-        $id = isset($_SESSION['usuario_id']);
+        $id = $_SESSION['usuario_id'];  // Obtém o ID do usuário
         $campanhaDAO = new CampanhaDAO();
-        $campanha = $campanhaDAO->buscarCampanhaPorId($id);
+        $campanha = $campanhaDAO->buscarCampanhaPorId($id, true); // Verifique a implementação do método
     }
-    ?>
-    <header style="position: relative;">
-        <span>
-            <a href="index.php?action=home" style="text-decoration: none; color:#fff; display:flex;">
-                <p>Geek</p>
-                <p>Hunters</p>
+?>
+<header style="position: relative;">
+    <span>
+        <a href="index.php?action=home" style="text-decoration: none; color:#fff; display:flex;">
+            <p>Geek</p>
+            <p>Hunters</p>
+        </a>
+    </span>
+
+    <input type="text" placeholder="Buscar projetos">
+
+    <?php
+        // Verifica se o usuário está logado
+        $login = isset($_SESSION['usuario_id']);
+        
+        // Verifica se é donatário
+        $isDonatario = $login && isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'donatario';
+        
+        if ($isDonatario) {
+            // Exibe o botão "Criar Projeto" apenas para donatários
+            echo '
+            <a href="index.php?acao=criarProjeto">
+                <button>Criar Projeto</button>
             </a>
-        </span>
-
-        <input type="text" placeholder="Buscar projetos">
+            ';
+        }
+    ?>
 
         <?php
-            // Verifica se o usuário está logado
-            $login = isset($_SESSION['usuario_id']);
-            
-            // Verifica se é donatário
-            $isDonatario = $login && isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'donatario';
-            
-            if ($isDonatario) {
-                // Exibe o botão "Criar Projeto" apenas para donatários
-                echo '
-                <a href="index.php?acao=criarProjeto">
-                    <button>Criar Projeto</button>
-                </a>
-                ';
-            }
-        ?>
-        <?php
-
         echo $login ? 
         '
         <div class="dropdown" style="position: relative;">
@@ -160,24 +158,51 @@
         </a>
         ';
         ?>
-    </header>
+</header>
 
-    <section class="projetosWrapper">
-        <h2>Projetos que apoiei</h2>
+<section class="projetosWrapper">
+    <h2>Projetos que apoiei</h2>
 
-        <div class="cardWrapper">
-              <?php
-              
-              // Iterar sobre todas as campanhas e gerar os cards
-              
-              foreach ($campanha as $campanha) {
-                  // Acessando as propriedades do objeto corretamente com os métodos get
-                  $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
-                  $descricao = $campanha->getRecompensa(); // Usando o método getDescricao()
-                  $imagem = $campanha->getImagem(); // Usando o método getImagem()
-                  $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
-                  $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
-              ?>
+    <div class="cardWrapper">
+          <?php
+          
+          if ($campanha) {
+              // Se campanha for um objeto ou uma lista de campanhas
+              if (is_array($campanha)) {
+                  foreach ($campanha as $campanhaItem) {
+                      // Acessando as propriedades do objeto corretamente com os métodos get
+                      $titulo = $campanhaItem->getTitulo(); 
+                      $descricao = $campanhaItem->getDescricao(); 
+                      $imagem = $campanhaItem->getImagem(); 
+                      $percentualArrecadado = ($campanhaItem->getArrecadado() / $campanhaItem->getMetaFinanceira()) * 100;
+                      $diasRestantes = (strtotime($campanhaItem->getDataFim()) - time()) / 86400;
+                      ?>
+                      <a href="index.php?action=ver-projeto&id=<?= $campanhaItem->getId() ?>" style="text-decoration: none;">
+                          <div class="card" style="width: 18rem;">
+                              <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                              <div class="card-body">
+                                  <h5 class="card-title"><?= $titulo ?></h5>
+                                  <p class="card-text"><?= $descricao ?></p>
+                                  <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                      <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                                  </div>
+                                  <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                      <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                      <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </a>
+                      <?php
+                  }
+              } else {
+                  // Caso o método retorne uma única campanha
+                  $titulo = $campanha->getTitulo(); 
+                  $descricao = $campanha->getDescricao(); 
+                  $imagem = $campanha->getImagem(); 
+                  $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100;
+                  $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400;
+                  ?>
                   <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
                       <div class="card" style="width: 18rem;">
                           <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
@@ -194,98 +219,126 @@
                           </div>
                       </div>
                   </a>
-              <?php
+                  <?php
               }
-              ?>
-          </div>
+          }
+          ?>
+    </div>
+</section>
 
-      </section>
     <hr>
 
 
     <section class="projetosWrapper">
-        <h2>Recompensa</h2>
+    <h2>Recompensa</h2>
 
-        <div class="cardWrapper">
-              <?php
-              
-              // Iterar sobre todas as campanhas e gerar os cards
-              
-              foreach ($campanha as $campanha) {
-                  // Acessando as propriedades do objeto corretamente com os métodos get
-                  $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
-                  $descricao = $campanha->getRecompensa(); // Usando o método getDescricao()
-                  $imagem = $campanha->getImagem(); // Usando o método getImagem()
-                  $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
-                  $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
-              ?>
-                  <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
-                      <div class="card" style="width: 18rem;">
-                          <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
-                          <div class="card-body">
-                              <h5 class="card-title"><?= $titulo ?></h5>
-                              <p class="card-text"><?= $descricao ?></p>
-                              <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
-                                  <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
-                              </div>
-                              <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                                  <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
-                                  <span>Falta <?= round($diasRestantes) ?> dias!</span>
-                              </div>
-                          </div>
-                      </div>
-                  </a>
-              <?php
-              }
-              ?>
-          </div>
+    <div class="cardWrapper">
+        <?php
+        // Obtenha as campanhas do banco de dados
+        $campanhas = $campanhaDAO->buscarCampanhaPorId($id);
 
-      </section>
-    <hr>
-    <?php
-    if ($isDonatario) {
-        // Exibe o botão "Criar Projeto" apenas para donatários
-        echo '<section class="projetosWrapper">';
-        echo '<h2>Criei</h2>';
-        echo '<div class="cardWrapper">';
-        
-        // Incluindo o código PHP que interage com o banco de dados
-        include_once "DAO/CampanhaDao.php";
-        $campanhaDAO = new CampanhaDAO();
-        $campanhas = $campanhaDAO->listarCampanhas();
-
-        // Iterando sobre todas as campanhas e gerando os cards
-        foreach ($campanhas as $campanha) {
-            // Acessando as propriedades do objeto corretamente com os métodos get
-            $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
-            $descricao = $campanha->getDescricao(); // Usando o método getDescricao()
-            $imagem = $campanha->getImagem(); // Usando o método getImagem()
-            $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
-            $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
-            
-            // Gerando o HTML para cada campanha
-            echo '<a href="index.php?action=ver-projeto&id=' . $campanha->getId() . '" style="text-decoration: none;">';
-            echo '<div class="card" style="width: 18rem;">';
-            echo '<img src="' . $imagem . '" class="card-img-top" alt="Imagem da campanha">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">' . $titulo . '</h5>';
-            echo '<p class="card-text">' . $descricao . '</p>';
-            echo '<div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="' . $percentualArrecadado . '" aria-valuemin="0" aria-valuemax="100">';
-            echo '<div class="progress-bar" style="width: ' . $percentualArrecadado . '%"></div>';
-            echo '</div>';
-            echo '<div style="display: flex; justify-content: space-between; padding: 20px 0">';
-            echo '<span>' . round($percentualArrecadado) . '% Arrecadado</span>';
-            echo '<span>Falta ' . round($diasRestantes) . ' dias!</span>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</a>';
+        // Verifica se o retorno não é null e é um array/objeto
+        if (is_array($campanhas) || is_object($campanhas)) {
+            foreach ($campanhas as $campanha) {
+                // Acessando as propriedades do objeto corretamente com os métodos get
+                $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
+                $descricao = $campanha->getRecompensa(); // Usando o método getRecompensa()
+                
+                $imagem = $campanha->getImagem(); // Usando o método getImagem()
+                $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
+                $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
+        ?>
+                <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
+                    <div class="card" style="width: 18rem;">
+                        <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $titulo ?></h5>
+                            <p class="card-text"><?= $descricao ?></p>
+                            <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+        <?php
+            }
+        } else {
+            echo '<p>Nenhuma campanha encontrada.</p>';
         }
+        ?>
+    </div>
+</section>
+<hr>
 
-        echo '</div>';
-        echo '</section>';
-    }
-    ?>
+<section class="projetosWrapper">
+    <h2>Projetos que apoiei</h2>
+
+    <div class="cardWrapper">
+          <?php
+          
+          if ($campanha) {
+              // Se campanha for um objeto ou uma lista de campanhas
+              if (is_array($campanha)) {
+                  foreach ($campanha as $campanhaItem) {
+                      // Acessando as propriedades do objeto corretamente com os métodos get
+                      $titulo = $campanhaItem->getTitulo(); 
+                      $descricao = $campanhaItem->getDescricao(); 
+                      $imagem = $campanhaItem->getImagem(); 
+                      $percentualArrecadado = ($campanhaItem->getArrecadado() / $campanhaItem->getMetaFinanceira()) * 100;
+                      $diasRestantes = (strtotime($campanhaItem->getDataFim()) - time()) / 86400;
+                      ?>
+                      <a href="index.php?action=ver-projeto&id=<?= $campanhaItem->getId() ?>" style="text-decoration: none;">
+                          <div class="card" style="width: 18rem;">
+                              <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                              <div class="card-body">
+                                  <h5 class="card-title"><?= $titulo ?></h5>
+                                  <p class="card-text"><?= $descricao ?></p>
+                                  <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                      <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                                  </div>
+                                  <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                      <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                      <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </a>
+                      <?php
+                  }
+              } else {
+                  // Caso o método retorne uma única campanha
+                  $titulo = $campanha->getTitulo(); 
+                  $descricao = $campanha->getDescricao(); 
+                  $imagem = $campanha->getImagem(); 
+                  $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100;
+                  $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400;
+                  ?>
+                  <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
+                      <div class="card" style="width: 18rem;">
+                          <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                          <div class="card-body">
+                              <h5 class="card-title"><?= $titulo ?></h5>
+                              <p class="card-text"><?= $descricao ?></p>
+                              <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                  <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                  <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                  <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                              </div>
+                          </div>
+                      </div>
+                  </a>
+                  <?php
+              }
+          }
+          ?>
+    </div>
+</section>
 
 
 

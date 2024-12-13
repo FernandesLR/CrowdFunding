@@ -160,18 +160,18 @@
             width: 100%;
         }
         .progress {
-    background-color: #e9ecef;
-    border-radius: 0.25rem;
-    height: 1rem;
-    overflow: hidden;
-    position: relative;
-}
-
-
-        
-        button:hover {
-            background-color: #c0392b;
+        background-color: #e9ecef;
+        border-radius: 0.25rem;
+        height: 1rem;
+        overflow: hidden;
+        position: relative;
         }
+
+
+            
+            button:hover {
+                background-color: #c0392b;
+            }
     </style>
 </head>
 <body>
@@ -179,7 +179,7 @@
 <?php
 
 
-include_once 'DAO/CampanhaDao.php';  // Inclua a classe DAO
+include_once 'DAO/CampanhaDao.php';  
 
 // Verifica se o ID foi passado pela URL
 if (isset($_GET['id'])) {
@@ -235,7 +235,7 @@ if (isset($_GET['id'])) {
             <a href="index.php?action=apoioProjeto&id=<?php echo $campanha->getId(); ?>" id="apoioProjetoLink">
                 <button>Apoiar Projeto</button>
             </a>
-
+            
         <?php else: ?>
             <p>Projeto não encontrado.</p>
         <?php endif; ?>
@@ -266,24 +266,9 @@ if (isset($_GET['id'])) {
             </div>
         </div>
     </section>
+
 </main>
 
-<footer>
-    <div class="footer-content">
-        <div class="info">
-            <h3>Start Crowdfunding</h3>
-            <p>Fund your cause or project today!</p>
-        </div>
-        <div class="links">
-            <h4>About Us</h4>
-            <a href="#">Terms of Service</a>
-            <a href="#">Privacy Policy</a>
-        </div>
-    </div>
-    <p>© 2024 Geek Hunters - Todos os direitos reservados.</p>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script>
     document.getElementById('apoioProjetoLink').addEventListener('click', function(event) {
         event.preventDefault(); // Impede o link de ser seguido imediatamente
@@ -302,22 +287,35 @@ if (isset($_GET['id'])) {
 
         var popupContent = document.createElement('div');
         popupContent.innerHTML = '<h2>Chave pix do donatário</h2><br>' +
-            '<p><?php echo $campanha->getPix()?></p>' +
-            '<button id="cancelarApoio">fechar</button>';
+            '<p><?php echo $campanha->getPix(); ?></p>' +  // Corrigido para PHP
+            '<button id="cancelarApoio">Fechar</button>'; // Botão para fechar
 
         popup.appendChild(popupContent);
         document.body.appendChild(popup);
 
         // Adiciona a funcionalidade para fechar o pop-up
-        document.getElementById('confirmarApoio').addEventListener('click', function() {
-            window.location.href = event.target.href; // Redireciona para o link após confirmar
-        });
-
         document.getElementById('cancelarApoio').addEventListener('click', function() {
             document.body.removeChild(popup); // Fecha o pop-up
         });
     });
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<footer>
+    <div class="footer-content">
+        <div class="info">
+            <h3>Start Crowdfunding</h3>
+            <p>Fund your cause or project today!</p>
+        </div>
+        <div class="links">
+            <h4>About Us</h4>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+    </div>
+    <p>© 2024 Geek Hunters - Todos os direitos reservados.</p>
+</footer>
 
 </body>
 </html>

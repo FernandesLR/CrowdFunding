@@ -8,8 +8,8 @@ class CampanhaDAO {
             $conexao = Conexao::conectar();
     
             // SQL para inserir dados da campanha, incluindo imagem (URL)
-            $sql = "INSERT INTO campanhas (donatario_id, titulo, descricao, meta_financeira, data_fim, status, img, recompensas) 
-                    VALUES (:donatario_id, :titulo, :descricao, :meta_financeira, :data_fim, :status, :imagem, :recompensas)";
+            $sql = "INSERT INTO campanhas (donatario_id, titulo, descricao, meta_financeira, data_fim, status, img, recompensas, pix) 
+                    VALUES (:donatario_id, :titulo, :descricao, :meta_financeira, :data_fim, :status, :imagem, :recompensas, :pix)";
     
             $stmt = $conexao->prepare($sql);
             $stmt->bindValue(':donatario_id', $campanha->getDonatarioId());
@@ -20,6 +20,7 @@ class CampanhaDAO {
             $stmt->bindValue(':status', $campanha->getStatus());
             $stmt->bindValue(':imagem', $campanha->getImagem(), PDO::PARAM_STR);  // Inserção da URL da imagem
             $stmt->bindValue(':recompensas', $campanha->getRecompensa());
+            $stmt->bindValue(':pix', $campanha->getPix());
 
             $stmt->execute();
         } catch (PDOException $e) {
@@ -32,10 +33,13 @@ class CampanhaDAO {
 
 
     // Método para buscar campanhas por ID
-    public function buscarCampanhaPorId($id) {
+    public function buscarCampanhaPorId($id, $idDonatario = false) {
         $conexao = Conexao::conectar();
-
-        $sql = "SELECT * FROM campanhas WHERE id = :id";
+        if($idDonatario){
+            $sql = "SELECT * FROM campanhas WHERE donatario_id = :id";
+        }else{
+            $sql = "SELECT * FROM campanhas WHERE id = :id";
+        }
         $stmt = $conexao->prepare($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
@@ -54,6 +58,7 @@ class CampanhaDAO {
             $campanha->setStatus($resultado['status']);
             $campanha->setImagem($resultado['img']);
             $campanha->setRecompensa($resultado['recompensas']);
+            $campanha->setPix($resultado['pix']);
 
             return $campanha;
         }

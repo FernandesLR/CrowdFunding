@@ -322,6 +322,7 @@
                   // Acessando as propriedades do objeto corretamente com os métodos get
                   $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
                   $descricao = $campanha->getDescricao(); // Usando o método getDescricao()
+                  $descricao = strlen($descricao) > 100? substr($descricao, 0, 100) . '...' : $descricao;
                   $imagem = $campanha->getImagem(); // Usando o método getImagem()
                   $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
                   $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes

@@ -1,4 +1,7 @@
 <?php
+
+// ESSE É ARQUIVO DE ROTAS DO SISTEMA
+
 session_start(); // Sempre inicializar no topo
 
 include 'controller/Home.php';
