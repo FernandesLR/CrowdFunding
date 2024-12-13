@@ -6,6 +6,7 @@ require_once __DIR__ . '/../model/Usuario.php';
 require_once __DIR__ . '/../model/Doador.php';
 require_once __DIR__ . '/../model/Donatario.php';
 require_once __DIR__ . '/../Conexao/Conexao.php'; 
+require_once __DIR__ . '/../services/validaUsuario.php';
 
 
 class UsuarioController {

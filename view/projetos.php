@@ -99,6 +99,18 @@
     </style>
 </head>
 <body>
+    <?php
+
+
+    include_once 'DAO/CampanhaDao.php';  // Inclua a classe DAO
+    
+    // Verifica se o ID foi passado pela URL
+    if (isset($_SESSION['usuario_id'])) {
+        $id = isset($_SESSION['usuario_id']);
+        $campanhaDAO = new CampanhaDAO();
+        $campanha = $campanhaDAO->buscarCampanhaPorId($id);
+    }
+    ?>
     <header style="position: relative;">
         <span>
             <a href="index.php?action=home" style="text-decoration: none; color:#fff; display:flex;">
@@ -151,194 +163,130 @@
     </header>
 
     <section class="projetosWrapper">
-            <h2>Projetos que apoiei</h2>
-            <div class="cardWrapper">
+        <h2>Projetos que apoiei</h2>
 
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-    
-                        </div>
-                    </div>
-                </div>
+        <div class="cardWrapper">
+              <?php
+              
+              // Iterar sobre todas as campanhas e gerar os cards
+              
+              foreach ($campanha as $campanha) {
+                  // Acessando as propriedades do objeto corretamente com os métodos get
+                  $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
+                  $descricao = $campanha->getRecompensa(); // Usando o método getDescricao()
+                  $imagem = $campanha->getImagem(); // Usando o método getImagem()
+                  $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
+                  $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
+              ?>
+                  <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
+                      <div class="card" style="width: 18rem;">
+                          <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                          <div class="card-body">
+                              <h5 class="card-title"><?= $titulo ?></h5>
+                              <p class="card-text"><?= $descricao ?></p>
+                              <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                  <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                  <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                  <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                              </div>
+                          </div>
+                      </div>
+                  </a>
+              <?php
+              }
+              ?>
+          </div>
 
-
-            </a>
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-    
-                        </div>
-                    </div>
-                </div>
-
-
-            </a>
-
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-    
-                        </div>
-                    </div>
-                </div>
-
-
-            </a>
-            
-
-            </div>
-
-    </section>
+      </section>
     <hr>
+
 
     <section class="projetosWrapper">
-            <h2>Recompensas</h2>
-            <div class="cardWrapper">
+        <h2>Recompensa</h2>
 
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-    
-                        </div>
-                    </div>
-                </div>
+        <div class="cardWrapper">
+              <?php
+              
+              // Iterar sobre todas as campanhas e gerar os cards
+              
+              foreach ($campanha as $campanha) {
+                  // Acessando as propriedades do objeto corretamente com os métodos get
+                  $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
+                  $descricao = $campanha->getRecompensa(); // Usando o método getDescricao()
+                  $imagem = $campanha->getImagem(); // Usando o método getImagem()
+                  $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
+                  $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
+              ?>
+                  <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
+                      <div class="card" style="width: 18rem;">
+                          <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
+                          <div class="card-body">
+                              <h5 class="card-title"><?= $titulo ?></h5>
+                              <p class="card-text"><?= $descricao ?></p>
+                              <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
+                                  <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 20px 0">
+                                  <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
+                                  <span>Falta <?= round($diasRestantes) ?> dias!</span>
+                              </div>
+                          </div>
+                      </div>
+                  </a>
+              <?php
+              }
+              ?>
+          </div>
 
-
-            </a>
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-    
-                        </div>
-                    </div>
-                </div>
-
-
-            </a>
-
-            <a href="index.php?action=ver-projeto" style="text-decoration: none;">
-                <div class="card" style="width: 18rem;">
-                    <img src="assets/img.jfif" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                        <span>25% Arrecadado</span>
-                        
-                        <span>Falta 19 dias!</span>
-    
-                        </div>
-                    </div>
-                </div>
-
-
-            </a>
-            
-
-        </div>
-
-    </section>
+      </section>
     <hr>
-
     <?php
-        if ($isDonatario) {
-            // Exibe o botão "Criar Projeto" apenas para donatários
-            echo '
+    if ($isDonatario) {
+        // Exibe o botão "Criar Projeto" apenas para donatários
+        echo '<section class="projetosWrapper">';
+        echo '<h2>Criei</h2>';
+        echo '<div class="cardWrapper">';
+        
+        // Incluindo o código PHP que interage com o banco de dados
+        include_once "DAO/CampanhaDao.php";
+        $campanhaDAO = new CampanhaDAO();
+        $campanhas = $campanhaDAO->listarCampanhas();
+
+        // Iterando sobre todas as campanhas e gerando os cards
+        foreach ($campanhas as $campanha) {
+            // Acessando as propriedades do objeto corretamente com os métodos get
+            $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
+            $descricao = $campanha->getDescricao(); // Usando o método getDescricao()
+            $imagem = $campanha->getImagem(); // Usando o método getImagem()
+            $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
+            $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
             
-            <section class="projetosWrapper">
-                <h2>Criei</h2>
-                <div class="cardWrapper">
-                    <?php
-                    include_once "DAO/CampanhaDao.php";
-                    $campanhaDAO = new CampanhaDAO();
-                    $campanhas = $campanhaDAO->listarCampanhas();
-                    // Iterar sobre todas as campanhas e gerar os cards
-                    foreach ($campanhas as $campanha) {
-                        // Acessando as propriedades do objeto corretamente com os métodos get
-                        $titulo = $campanha->getTitulo(); // Usando o método getTitulo()
-                        $descricao = $campanha->getDescricao(); // Usando o método getDescricao()
-                        $imagem = $campanha->getImagem(); // Usando o método getImagem()
-                        $percentualArrecadado = ($campanha->getArrecadado() / $campanha->getMetaFinanceira()) * 100; // Exemplo de cálculo
-                        $diasRestantes = (strtotime($campanha->getDataFim()) - time()) / 86400; // Calculando os dias restantes
-                    ?>
-                        <a href="index.php?action=ver-projeto&id=<?= $campanha->getId() ?>" style="text-decoration: none;">
-                            <div class="card" style="width: 18rem;">
-                                <img src="<?= $imagem ?>" class="card-img-top" alt="Imagem da campanha">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?= $titulo ?></h5>
-                                    <p class="card-text"><?= $descricao ?></p>
-                                    <div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="<?= $percentualArrecadado ?>" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar" style="width: <?= $percentualArrecadado ?>%"></div>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; padding: 20px 0">
-                                        <span><?= round($percentualArrecadado) ?>% Arrecadado</span>
-                                        <span>Falta <?= round($diasRestantes) ?> dias!</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    <?php
-                    }
-                    ?>
-                </div>
-            </section>
-            ';
+            // Gerando o HTML para cada campanha
+            echo '<a href="index.php?action=ver-projeto&id=' . $campanha->getId() . '" style="text-decoration: none;">';
+            echo '<div class="card" style="width: 18rem;">';
+            echo '<img src="' . $imagem . '" class="card-img-top" alt="Imagem da campanha">';
+            echo '<div class="card-body">';
+            echo '<h5 class="card-title">' . $titulo . '</h5>';
+            echo '<p class="card-text">' . $descricao . '</p>';
+            echo '<div class="progress" role="progressbar" aria-label="Progresso da campanha" aria-valuenow="' . $percentualArrecadado . '" aria-valuemin="0" aria-valuemax="100">';
+            echo '<div class="progress-bar" style="width: ' . $percentualArrecadado . '%"></div>';
+            echo '</div>';
+            echo '<div style="display: flex; justify-content: space-between; padding: 20px 0">';
+            echo '<span>' . round($percentualArrecadado) . '% Arrecadado</span>';
+            echo '<span>Falta ' . round($diasRestantes) . ' dias!</span>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</a>';
         }
+
+        echo '</div>';
+        echo '</section>';
+    }
     ?>
+
 
 
       
